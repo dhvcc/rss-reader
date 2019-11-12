@@ -1,5 +1,7 @@
 import argparse
 
+v = '1.1.0'
+
 
 def parse():
     """This function gets all the args from command line and return args namespace"""
@@ -10,7 +12,7 @@ def parse():
     parser.add_argument('--version',
                         help='Print version info',
                         action='version',
-                        version='RssReader 1.1.0')
+                        version='RssReader ' + v)
     parser.add_argument('--json',
                         help='Print result as JSON in stdout',
                         action='store_true')
@@ -23,9 +25,12 @@ def parse():
     return parser.parse_args()
 
 
-args = parse()
-if args.verbose:
-    print("Parsed args succesfully")
-    print("Requesting rss from url ... ")
+def main():
+    """Main function that starts everything"""
+    args = parse()
+    if args.verbose:
+        print("Parsed args succesfully")
 
-print(args)
+
+if __name__ == '__main__':
+    main()
