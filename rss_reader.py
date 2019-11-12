@@ -2,10 +2,8 @@ import argparse
 
 
 def parse():
-    """This function gets all the args
-    from command line and return args namespace"""
-    parser = argparse.ArgumentParser(description='Pure Python'
-                                                 ' command-line RSS reader.')
+    """This function gets all the args from command line and return args namespace"""
+    parser = argparse.ArgumentParser(description='Pure Python command-line RSS reader.')
     parser.add_argument('source',
                         help='RSS URL',
                         type=str)
@@ -21,13 +19,13 @@ def parse():
                         action='store_true')
     parser.add_argument('--limit',
                         help='Limit news topics if this parameter provided',
-                        type=int,
-                        default=1)
+                        type=int)
     return parser.parse_args()
 
 
 args = parse()
 if args.verbose:
     print("Parsed args succesfully")
-    print("Requesting rss from url")
+    print("Requesting rss from url ... ")
+
 print(args)
