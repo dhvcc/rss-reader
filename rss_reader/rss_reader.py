@@ -1,4 +1,5 @@
 import argparse
+import url_parse
 
 v = '1.1.0'
 
@@ -28,8 +29,12 @@ def parse():
 def main():
     """Main function that starts everything"""
     args = parse()
-    if args.verbose:
-        print("Parsed args succesfully")
+    soup = url_parse.get_soup(args.source)
+    url_parse.print_header(soup)
+    url_parse.print_items(args.limit, url_parse.get_items(soup))
+    # with open('f.xml', 'wb') as f:
+    #    f.write(requests.get(args.source).content)
+    # exit()
 
 
 if __name__ == '__main__':
