@@ -1,5 +1,8 @@
 import argparse
 import url_parse
+import logging as log
+import requests
+import sys
 
 v = '1.1.0'
 
@@ -29,7 +32,12 @@ def parse():
 def main():
     """Main function that starts everything"""
     args = parse()
+    if args.verbose:
+        log.basicConfig(level=log.INFO)
+    log.info('Parsed args successfully')
+    log.info('Parsing url ... ')
     soup = url_parse.get_soup(args.source)
+    log.info('Parsed successfully, printing')
     url_parse.print_header(soup)
     url_parse.print_items(args.limit, url_parse.get_items(soup))
     # with open('f.xml', 'wb') as f:

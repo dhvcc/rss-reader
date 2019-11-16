@@ -5,7 +5,12 @@ import html
 
 def get_response(source):
     """Function that returns response from source it received"""
-    return requests.get(source)
+    try:
+        resp = requests.get(source)
+    except requests.RequestException as e:
+        print(e)
+        exit(1)
+    return resp
 
 
 def get_soup(source):
@@ -31,35 +36,33 @@ def print_header(soup):
 
 def print_items(limit, items):
     """Function that prints news(items) {limit} number of times"""
-    if limit is None:
-        return
     count = 0
     for i in items:
-        if count == limit:
+        if limit is not None and count == limit:
             break
-        Links = []
-        Images = []
+        links = []
+        images = []
         desc_soup = BeautifulSoup(i.description.text, 'html.parser')
         for j in desc_soup.findAll('a'):
-            Links.append(j.get('href'))
+            links.append(j.get('href'))
         for j in desc_soup.findAll('img'):
-            Images.append([j.get('src'), j.get('alt')])
+            images.append([j.get('src'), j.get('alt')])
         print('Title: ' + html.unescape(i.title.text))
         print("Date: " + html.unescape(i.pubDate.text))
         print('Link: ' + html.unescape(i.link.text))
         print()
-        count2 = len(Links)
-        for j in Images:
-            print('[image {}: {}][{}]'.format(count2+1, j[1], count2+1), end='')
+        count2 = len(links)
+        for j in images:
+            print('[image {}: {}][{}]'.format(count2 + 1, j[1], count2 + 1), end='')
             count2 += 1
         print(desc_soup.text)
         print('\n')
         print('Links:   ')
         count2 = 1
-        for j in Links:
+        for j in links:
             print('[{}]: '.format(count2), j, ' (link)')
             count2 += 1
-        for j in Images:
+        for j in images:
             print('[{}]: '.format(count2), j[0], ' (image)')
             count2 += 1
         count += 1
