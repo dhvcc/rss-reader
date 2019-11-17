@@ -1,7 +1,7 @@
+"""Main module"""
 import argparse
-import url_parse
+import parsing
 import logging as log
-import requests
 import sys
 
 v = '1.1.0'
@@ -33,16 +33,16 @@ def main():
     """Main function that starts everything"""
     args = parse()
     if args.verbose:
-        log.basicConfig(level=log.INFO)
+        log.basicConfig(stream=sys.stdout, level=log.INFO,
+                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     log.info('Parsed args successfully')
     log.info('Parsing url ... ')
-    soup = url_parse.get_soup(args.source)
+    soup = parsing.get_soup(args.source)
     log.info('Parsed successfully, printing')
-    url_parse.print_header(soup)
-    url_parse.print_items(args.limit, url_parse.get_items(soup))
-    # with open('f.xml', 'wb') as f:
-    #    f.write(requests.get(args.source).content)
-    # exit()
+    if args.json:
+        parsing.print_json(args.limit, soup)
+    else:
+        parsing.print_regular(args.limit, soup)
 
 
 if __name__ == '__main__':
