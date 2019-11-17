@@ -1,10 +1,10 @@
 """Main module"""
 import argparse
-import parsing
+import rss_reader.parsing as parsing
 import logging as log
 import sys
 
-v = '1.1.0'
+v = '1.2.1'
 
 
 def parse():

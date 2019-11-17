@@ -1,3 +1,7 @@
+#pipenv
+Pipfile
+Pipfile.lock
+
 #PyCharm
 .idea
 

@@ -1,3 +1,4 @@
+"""Source parsing and printing module"""
 from bs4 import BeautifulSoup
 import requests
 import html
@@ -18,8 +19,6 @@ def get_soup(source):
     """Function that returns soup from response"""
     response = get_response(source)
     soup = BeautifulSoup(response.content, 'xml')
-    # with open('f.xml', 'r') as f:
-    #     soup = BeautifulSoup(f, 'xml')
     return soup
 
 
