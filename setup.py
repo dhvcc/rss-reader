@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 import os
-
+from rss_reader.rss_reader import v
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -8,7 +8,7 @@ def read(fname):
 
 setup(
     name='rss-reader',
-    version='1.2.1',
+    version=v,
     author='Alexey Artishevskiy',
     author_email='1337kwiz@gmail.com',
     description='A simple CLI rss reader',

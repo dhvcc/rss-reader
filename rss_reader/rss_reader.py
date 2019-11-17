@@ -4,7 +4,7 @@ import rss_reader.parsing as parsing
 import logging as log
 import sys
 
-v = '1.2.1'
+v = '1.2.3'
 
 
 def parse():
