@@ -7,7 +7,7 @@ import rss_reader.caching as caching
 import logging as log
 import sys
 
-v = '1.3.0'
+v = '1.3.2'
 
 
 def parse():

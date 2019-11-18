@@ -20,7 +20,7 @@ to install this RSS reader.
 
 You can `download <[https://pypi.org/project/rss-reader/#files](https://pypi.org/project/rss-reader/#files)>`__
 it manually and run ``python3 setup.py install`` in
-``.../rss-reader-1.3.0/``
+``.../rss-reader-1.3.2/``
 
 Requirements
 ------------
