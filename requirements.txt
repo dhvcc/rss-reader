@@ -52,7 +52,7 @@ reportlab==3.4.0
 requests==2.22.0
 requests-toolbelt==0.9.1
 requests-unixsocket==0.1.5
--e git+git@github.com:Kwizchm/PythonHomework.git@d0e20da021a0f7a791c8abddd0b29f56472e20a0#egg=rss_reader
+-e git+git@github.com:Kwizchm/PythonHomework.git@8b5d65398bcd93fe8c957ef66d16adf0fbc8b447#egg=rss_reader
 sessioninstaller==0.0.0
 setproctitle==1.1.10
 six==1.13.0

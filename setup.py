@@ -14,7 +14,7 @@ setup(
     description='A simple CLI rss reader',
     url='https://github.com/Kwizchm/PythonHomework',
     license='MIT',
-    long_description=read('README.md'),
+    long_description=read('README.rst'),
     packages=find_packages(),
     python_requires='>=3.6',
     keywords='cli rss reader',
