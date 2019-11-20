@@ -20,7 +20,7 @@ to install this RSS reader.
 
 You can `download <[https://pypi.org/project/rss-reader/#files](https://pypi.org/project/rss-reader/#files)>`__
 it manually and run ``python3 setup.py install`` in
-``.../rss-reader-1.3.2/``
+``.../rss-reader-1.3.5/``
 
 Requirements
 ------------
@@ -31,8 +31,9 @@ Usage
 
 ::
 
-    usage: rss-reader [-h] [--version] [--json] [--verbose]
-    [--limit LIMIT] source
+    usage: rss-reader [-h] [--version] [--json] [--verbose] [--limit LIMIT]
+                  [--date DATE] [--clear-cache]
+                  source
 
     Pure Python command-line RSS reader.
 
@@ -41,10 +42,12 @@ Usage
 
     optional arguments:
       -h, --help     show this help message and exit
-      --version      Print version info
-      --json         Print result as JSON in stdout
-      --verbose      Outputs verbose status messages
-      --limit LIMIT  Limit news topics if this parameter provided
+      --version      print version info
+      --json         print result as JSON in stdout
+      --verbose      output verbose status messages
+      --limit LIMIT  limit news topics if this parameter provided
+      --date DATE    print cached news from provided date
+      --clear-cache  clear news cache
 
 JSON structure
 --------------
