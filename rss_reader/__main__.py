@@ -1,19 +1,23 @@
 """Main module"""
 import argparse
-# import news
 import rss_reader.news as news
-# import caching
 import rss_reader.caching as caching
-# from config import version
 from rss_reader.config import version
+import rss_reader.converting as converting
 import logging as log
 from sys import exit, stdout
 from pathlib import Path
 from os import path, mkdir
-
+import base64
 
 cache_path = ''
+reader_dir = ''
 
+# --to dir
+# normal mime type
+# get rid of asis
+# if link the same
+# clean code
 
 def get_arguments():
     """This function gets all the args from command line and return args namespace"""
@@ -41,6 +45,21 @@ def get_arguments():
     parser.add_argument('--clear-cache',
                         help='clear news cache',
                         action='store_true')
+    parser.add_argument('--to-mobi',
+                        action='store_true',
+                        help='convert news to .mobi format and make a new file called news.mobi')
+    parser.add_argument('--to-epub',
+                        action='store_true',
+                        help='convert news to .epub format and make a new file called news.epub')
+    parser.add_argument('--to-fb2',
+                        action='store_true',
+                        help='convert news to .fb2 format and make a new file called news.fb2')
+    parser.add_argument('--to-html',
+                        action='store_true',
+                        help='convert news to .html format and make a new file called news.html')
+    parser.add_argument('--to-pdf',
+                        action='store_true',
+                        help='convert news to .pdf format and make a new file called news.pdf')
 
     return parser.parse_args()
 
@@ -57,7 +76,7 @@ def print_cached_news_by_date(date, limit, json):
         log.info('Printing cached news')
         log.info('Limit is {}'.format(limit))
         ret = caching.print_cache_regular(date, limit, cache_path)
-    if ret is caching.CacheClear:
+    if ret is caching.CacheCleanError:
         log.info('Cache is empty')
     elif ret:
         log.info('Cached news printed successfully')
@@ -85,7 +104,7 @@ def print_news(news_dict, limit, json):
         print('Unknown error printing news')
         exit(1)
     ret = caching.cache_news(news_dict, cache_path)
-    if ret is caching.CacheClear:
+    if ret is caching.CacheCleanError:
         log.info('New cache file was created')
     elif ret:
         log.info('News cached successfully')
@@ -96,14 +115,14 @@ def print_news(news_dict, limit, json):
 
 def main():
     """Main function that is called when running a package"""
-    cache_dir = path.join(Path.home(), 'rss_reader')
-    global cache_path
-    cache_path = path.join(cache_dir, 'data.json')
-    if not path.isdir(cache_dir):
+    global cache_path, reader_dir
+    reader_dir = path.join(Path.home(), 'rss_reader')
+    cache_path = path.join(reader_dir, 'data.json')
+    if not path.isdir(reader_dir):
         try:
-            mkdir(cache_dir)
+            mkdir(reader_dir)
         except Exception as e:
-            print('Error making a directory for cache at {}'.format(cache_dir))
+            print('Error making a directory for cache at {}'.format(reader_dir))
             print(e)
             exit(1)
     args = get_arguments()
@@ -113,11 +132,11 @@ def main():
     log.info('Received arguments successfully')
     log.info('Parsing url')
     log.info('Parsed successfully')
-    soup = news.get_soup(args.source)
+    soup = news.get_soup(args.source, reader_dir)
     if args.clear_cache:
         log.info('Clearing cache')
         ret = caching.clear_cache(cache_path)
-        if ret is caching.CacheClear:
+        if ret is caching.CacheCleanError:
             log.info('Cache is already clear')
         elif ret:
             log.info('Cache cleared successfully')
@@ -126,6 +145,39 @@ def main():
             exit(1)
     elif args.date:
         print_cached_news_by_date(args.date, args.limit, args.json)
+    elif args.to_html:
+        log.info('Converting news to html')
+        news_dict = news.get_items(args.limit, soup)
+        if converting.to_html(news_dict, reader_dir):
+            log.info('Converted successfully')
+        else:
+            print('Unknown error converting to html')
+            exit(1)
+    elif args.to_pdf:
+        log.info('Converting news to pdf')
+        news_dict = news.get_items(args.limit, soup)
+        if converting.to_pdf(news_dict, reader_dir):
+            log.info('Converted successfully')
+        else:
+            print('Unknown error converting to html')
+            exit(1)
+    elif args.to_fb2:
+        log.info('Converting news to fb2')
+        news_dict = news.get_items(args.limit, soup)
+        if converting.to_fb2(news_dict, reader_dir, args.source):
+            log.info('Converted successfully')
+        else:
+            print('Unknown error converting to html')
+            exit(1)
+    elif args.to_epub:
+        log.info('Converting news to epub')
+        news_dict = news.get_items(args.limit, soup)
+        if converting.to_epub(news_dict, reader_dir):
+            log.info('Converted successfully')
+        else:
+            print('Unknown error converting to html')
+            exit(1)
+
 
     else:
         news_dict = news.get_items(args.limit, soup)

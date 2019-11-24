@@ -5,6 +5,8 @@ from html import unescape
 from json import dumps
 from sys import exit
 
+import os
+
 
 def get_response(source):
     """Function that returns response from source it received"""
@@ -17,11 +19,13 @@ def get_response(source):
     return resp
 
 
-def get_soup(source):
+def get_soup(source, reader_dir):
     """Function that returns BeautifulSoup object from response"""
     response = get_response(source)
     try:
         soup = BeautifulSoup(response.content, 'xml')
+        # with open(os.path.join(reader_dir, 'tutby.xml'), 'r') as f:
+        #     soup = BeautifulSoup(f.read(), 'xml')
     except Exception as e:
         print('Error parsing url response')
         print(e)
@@ -90,7 +94,7 @@ def print_regular(news_dict):
                     print('[{}][{}]: {}'.format(counter2, j['Title'], j['Link']))
                     counter2 += 1
             print('\n')
-            return True
+        return True
     except Exception as e:
         print('Error printing news')
         print(e)
