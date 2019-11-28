@@ -5,6 +5,7 @@ from requests.exceptions import HTTPError
 from html import unescape
 from json import dumps
 from sys import exit
+from colorama import init, Fore, Back, Style
 
 
 def get_response(source, **kwargs):
@@ -81,22 +82,34 @@ def get_items(limit, soup, **kwargs):
     return news_dict
 
 
-def print_regular(news_dict, **kwargs):
+def print_regular(news_dict, color, **kwargs):
     """Function that prints news from given news dictionary"""
     try:
         print()
-        print('Feed: {}'.format(news_dict['Feed title']))
+        if color:
+            print(Style.NORMAL, Back.WHITE, Fore.BLACK, end='\b\b')
+        print('Feed: ', news_dict['Feed title'], Style.RESET_ALL)
         print()
         for news in news_dict['News']:
-            print('Title: {}'.format(news['Title']))
+            if color:
+                print(Style.NORMAL, Back.WHITE, Fore.BLACK, end='\b\b')
+            print('Title: {}'.format(news['Title']), Style.RESET_ALL)
+            if color:
+                print(Style.BRIGHT, Fore.WHITE, end='\b')
             if 'Publishing date' in news:
                 print('Publishing date: {}'.format(news['Publishing date']))
             if 'Category' in news:
                 print("Category: {}".format(news['Category']))
             print('Link: {}'.format(news['Link']))
+            print(Style.RESET_ALL, end='')
             print()
+            if color:
+                print(Style.BRIGHT, Fore.YELLOW, end='\b')
             print(news['Description'])
+            print(Style.RESET_ALL, end='')
             print()
+            if color:
+                print(Style.BRIGHT, Fore.WHITE, end='\b')
             if 'Description links' in news:
                 counter2 = 1
                 print('Description links: ')
@@ -109,6 +122,7 @@ def print_regular(news_dict, **kwargs):
                 for j in news['Description images']:
                     print('[{}][{}]: {}'.format(counter2, j['Title'], j['Link']))
                     counter2 += 1
+            print(Style.RESET_ALL, end='')
             print('\n')
         return True
     except Exception as e:

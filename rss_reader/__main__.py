@@ -11,17 +11,12 @@ from os import path, mkdir
 
 
 # before commit
-# pip3 install -e ., venv
-# pip3 freeze > requirements.txt
 # update Readme version
 # update config version
-# pycodestyle
 # readme usage
 
-# add kwarg everywhere
 
 # tests
-# colorize
 
 
 def get_arguments(**kwargs):
@@ -29,44 +24,44 @@ def get_arguments(**kwargs):
     parser = argparse.ArgumentParser(
         description='Pure Python command-line RSS reader.',
         add_help=True)
-    parser.add_argument('source',
-                        help='RSS URL',
-                        nargs='*',
-                        # default=' ',
-                        metavar='source',
-                        type=str)
     parser.add_argument('--version',
                         help='print version info',
                         action='version',
                         version='rss-reader {}'.format(version))
-    parser.add_argument('--json',
-                        help='print result as JSON in stdout',
-                        action='store_true')
     parser.add_argument('--verbose',
                         help='output verbose status messages',
                         action='store_true')
-    parser.add_argument('--limit',
-                        help='limit news topics if this parameter provided',
-                        type=int)
     parser.add_argument('--date',
                         type=str,
-                        help='print cached news from provided date in %%Y%%m%%d format, also affects --to-* arguments'
-                             ' (no need to provide source argument)')
+                        help='print cached news from provided date in %%Y%%m%%d format')
     parser.add_argument('--clear-cache',
-                        help='clear news cache (no need to provide source argument)',
+                        help='clear news cache',
                         action='store_true')
-    parser.add_argument('--to-epub',
-                        action='store_true',
-                        help='convert news to .epub format and make a new file called news.epub')
-    parser.add_argument('--to-fb2',
-                        action='store_true',
-                        help='convert news to .fb2 format and make a new file called news.fb2')
+    parser.add_argument('--json',
+                        help='print the news as JSON in stdout',
+                        action='store_true')
+    parser.add_argument('source',
+                        help='RSS URL',
+                        nargs='*',
+                        type=str)
     parser.add_argument('--to-html',
                         action='store_true',
                         help='convert news to .html format and make a new file called news.html')
     parser.add_argument('--to-pdf',
                         action='store_true',
                         help='convert news to .pdf format and make a new file called news.pdf')
+    parser.add_argument('--to-fb2',
+                        action='store_true',
+                        help='convert news to .fb2 format and make a new file called news.fb2')
+    parser.add_argument('--to-epub',
+                        action='store_true',
+                        help='convert news to .epub format and make a new file called news.epub')
+    parser.add_argument('--limit',
+                        help='limit news topics if this parameter is provided',
+                        type=int)
+    parser.add_argument('--colorize',
+                        action='store_true',
+                        help='print the result of the utility in colorized mode')
 
     return parser.parse_args()
 
@@ -121,7 +116,7 @@ def parse_date_argument(args, reader_dir, cache_path, **kwargs):
     else:
         log.info('Printing cached news')
         log.info('Limit is {}'.format(args.limit))
-        if news.print_regular(cached_news_dict):
+        if news.print_regular(cached_news_dict, args.colorize):
             log.info('Cached news printed successfully')
         else:
             print('Unknown error printing cached news')
@@ -175,7 +170,7 @@ def parse_source_argument(args, reader_dir, cache_path, **kwargs):
     else:
         log.info('Printing news')
         log.info('Limit is {}'.format(args.limit))
-        if news.print_regular(news_dict):
+        if news.print_regular(news_dict, args.colorize):
             log.info('News printed successfully')
         else:
             print('Unknown error printing news')
@@ -206,7 +201,7 @@ def parse_clear_cache_argument(cache_path, **kwargs):
 def main():
     """Main function that is called when running a package"""
     reader_dir = path.join(Path.home(), 'rss_reader')
-    cache_path = path.join(reader_dir, 'data.json')
+    cache_path = path.join(reader_dir, 'cache.json')
     # parsing command line arguments
     args = get_arguments()
     if args.verbose:

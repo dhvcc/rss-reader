@@ -73,7 +73,7 @@ requests==2.22.0
 requests-toolbelt==0.9.1
 requests-unixsocket==0.1.5
 restview==2.9.2
--e git+git@github.com:Kwizchm/PythonHomework.git@6d57d7e5747bb7ecb9f737f91ec4e7f8d0ce3369#egg=rss_reader
+-e git+git@github.com:Kwizchm/PythonHomework.git@68b349ed29960e5e2370ab8798dbb885d774526d#egg=rss_reader
 sessioninstaller==0.0.0
 setproctitle==1.1.10
 six==1.13.0
