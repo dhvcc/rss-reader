@@ -10,7 +10,7 @@ import base64
 from ebooklib import epub
 
 
-def save_news(file, reader_dir, file_format):
+def save_news(file, reader_dir, file_format, **kwargs):
     """Given file, output directory and file format
         Saves a file called news.{file_format}"""
     try:
@@ -22,7 +22,7 @@ def save_news(file, reader_dir, file_format):
         sys.exit(1)
 
 
-def get_html(news_dict):
+def get_html(news_dict, **kwargs):
     """Function that converts news to html format from given news dictionary
         Returns html if converted successfully"""
     try:
@@ -61,7 +61,7 @@ def get_html(news_dict):
         sys.exit(1)
 
 
-def get_xhtml(news):
+def get_xhtml(news, **kwargs):
     """Function that returns given news in xhtml format"""
     try:
         doc, tag, text = Doc().tagtext()
@@ -99,19 +99,30 @@ def get_xhtml(news):
         sys.exit(1)
 
 
-def get_binary_string_from_link(image_link):
+def get_binary_string_from_link(image_link, **kwargs):
     """Given image link, returns content bytes as a string"""
-    response = get_response(image_link)
-    return base64.b64encode(response.content).decode()
+    try:
+        response = get_response(image_link)
+        return base64.b64encode(response.content).decode()
+    except Exception as e:
+        print('Error getting binary string from link')
+        print(e)
+        exit(1)
 
 
-def get_bytes_from_link(image_link):
+def get_bytes_from_link(image_link, **kwargs):
     """Given image link, returns content bytes"""
-    response = get_response(image_link)
-    return response.content
+    try:
+
+        response = get_response(image_link)
+        return response.content
+    except Exception as e:
+        print('Error getting binary string from link')
+        print(e)
+        exit(1)
 
 
-def to_html(news_dict, reader_dir):
+def to_html(news_dict, reader_dir, **kwargs):
     """Function that converts news to html format from given news dictionary
         Returns True if converted successfully"""
     try:
@@ -128,7 +139,7 @@ def to_html(news_dict, reader_dir):
         sys.exit(1)
 
 
-def to_pdf(news_dict, reader_dir):
+def to_pdf(news_dict, reader_dir, **kwargs):
     """Function that converts news to pdf format from given news dictionary
         Returns True if converted successfully"""
     try:
@@ -143,7 +154,7 @@ def to_pdf(news_dict, reader_dir):
         sys.exit(1)
 
 
-def to_fb2(news_dict, reader_dir, source):
+def to_fb2(news_dict, reader_dir, source, **kwargs):
     """Function that converts news to fb2 format from given news dictionary
         Returns True if converted successfully"""
     try:
@@ -160,7 +171,7 @@ def to_fb2(news_dict, reader_dir, source):
                     img[image_content] = (
                         image_counter2, mime.from_file(path.join(reader_dir, 'data')))
                     image_counter2 += 1
-                # remove(path.join(reader_dir, 'data'))
+                remove(path.join(reader_dir, 'data'))
         section_counter = 0
         doc, tag, text = Doc().tagtext()
         doc.asis('<?xml version="1.0" encoding="utf-8"?>')
@@ -224,7 +235,7 @@ def to_fb2(news_dict, reader_dir, source):
         sys.exit(1)
 
 
-def to_epub(news_dict, reader_dir):
+def to_epub(news_dict, reader_dir, **kwargs):
     """Function that converts news to epub format from given news dictionary
         Returns True if converted successfully"""
     try:

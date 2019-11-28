@@ -18,12 +18,13 @@ from os import path, mkdir
 # pycodestyle
 # readme usage
 
+# add kwarg everywhere
 
 # tests
 # colorize
 
 
-def get_arguments():
+def get_arguments(**kwargs):
     """This function gets all the args from command line and return args namespace"""
     parser = argparse.ArgumentParser(
         description='Pure Python command-line RSS reader.',
@@ -70,7 +71,7 @@ def get_arguments():
     return parser.parse_args()
 
 
-def parse_date_argument(args, reader_dir, cache_path):
+def parse_date_argument(args, reader_dir, cache_path, **kwargs):
     """Function that parses date argument prints or converts cached news from given date
     depending on args variable values"""
     cached_news_dict = caching.get_cached_news(args.date, args.limit, cache_path)
@@ -127,12 +128,12 @@ def parse_date_argument(args, reader_dir, cache_path):
             exit(1)
 
 
-def parse_source_argument(args, reader_dir, cache_path):
+def parse_source_argument(args, reader_dir, cache_path, **kwargs):
     """Function that parses output arguments and prints or converts news
     depending on args variable value
     Also this function caches read news after printing or converting"""
     log.info('Parsing url')
-    soup = news.get_soup(args.source, reader_dir)
+    soup = news.get_soup(args.source)
     news_dict = news.get_items(args.limit, soup)
     log.info('Parsed successfully')
     if args.json:
@@ -190,7 +191,7 @@ def parse_source_argument(args, reader_dir, cache_path):
         exit(1)
 
 
-def parse_clear_cache_argument(cache_path):
+def parse_clear_cache_argument(cache_path, **kwargs):
     log.info('Clearing cache')
     ret = caching.clear_cache(cache_path)
     if ret is caching.CacheCleanError:
@@ -204,16 +205,8 @@ def parse_clear_cache_argument(cache_path):
 
 def main():
     """Main function that is called when running a package"""
-    # making a reader directory
     reader_dir = path.join(Path.home(), 'rss_reader')
     cache_path = path.join(reader_dir, 'data.json')
-    if not path.isdir(reader_dir):
-        try:
-            mkdir(reader_dir)
-        except Exception as e:
-            print('Error making a reader directory at {}'.format(reader_dir))
-            print(e)
-            exit(1)
     # parsing command line arguments
     args = get_arguments()
     if args.verbose:
@@ -221,7 +214,15 @@ def main():
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     log.info('Received arguments successfully')
     log.info('Verbose mode is on')
-
+    # making a reader directory
+    if not path.isdir(reader_dir):
+        try:
+            log.info('Making new directory for rss-reader files')
+            mkdir(reader_dir)
+        except Exception as e:
+            print('Error making a reader directory at {}'.format(reader_dir))
+            print(e)
+            exit(1)
     if args.date:
         parse_date_argument(args, reader_dir, cache_path)
     elif args.clear_cache:

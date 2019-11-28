@@ -1,12 +1,13 @@
 """Converting module which is responsible for everything associated with printing and parsing news"""
 from bs4 import BeautifulSoup
 from requests import get
+from requests.exceptions import HTTPError
 from html import unescape
 from json import dumps
 from sys import exit
 
 
-def get_response(source):
+def get_response(source, **kwargs):
     """Function that returns response from source it received"""
     try:
         resp = get(source)
@@ -17,19 +18,36 @@ def get_response(source):
         exit(1)
 
 
-def get_soup(source):
+def get_soup(source, **kwargs):
     """Function that returns BeautifulSoup object from response"""
     try:
         response = get_response(source)
         soup = BeautifulSoup(response.content, 'xml')
+        return soup
     except Exception as e:
         print('Error parsing url response')
         print(e)
         exit(1)
-    return soup
 
 
-def get_items(limit, soup):
+def ping_link(link, **kwargs):
+    """Function that validates given link
+        Returns True is link i valid and server responds 200(OK)
+        Returns False otherwise"""
+    try:
+        response = get(link)
+        pass
+    except HTTPError as e:
+        return False
+    except Exception as e:
+        return False
+    else:
+        if response.status_code == 200:
+            return True
+        return False
+
+
+def get_items(limit, soup, **kwargs):
     """Function that returns news dictionary extracted from given BeautifulSoup object"""
     feed_title = unescape(soup.title.text)
     news_dict = {'Feed title': feed_title, 'News': []}
@@ -42,9 +60,11 @@ def get_items(limit, soup):
         images = []
         desc_soup = BeautifulSoup(i.description.text, 'html.parser')
         for j in desc_soup.findAll('a'):
-            links.append(j.get('href'))
+            if ping_link(j.get('href')):
+                links.append(j.get('href'))
         for j in desc_soup.findAll('img'):
-            images.append({'Title': j.get('alt'), 'Link': j.get('src')})
+            if ping_link(j.get('src')):
+                images.append({'Title': j.get('alt'), 'Link': j.get('src')})
         news_dict['News'].append({})
         news_dict['News'][limit_counter]['Title'] = unescape(i.title.text)
         news_dict['News'][limit_counter]['Link'] = unescape(i.link.text)
@@ -61,7 +81,7 @@ def get_items(limit, soup):
     return news_dict
 
 
-def print_regular(news_dict):
+def print_regular(news_dict, **kwargs):
     """Function that prints news from given news dictionary"""
     try:
         print()
@@ -97,7 +117,7 @@ def print_regular(news_dict):
         exit(1)
 
 
-def print_json(news_dict):
+def print_json(news_dict, **kwargs):
     """Function that prints news from given news dictionary in JSON format"""
     try:
         dump = dumps(news_dict, indent=4, ensure_ascii=False)

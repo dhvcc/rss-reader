@@ -6,7 +6,7 @@ from datetime import datetime
 from os import remove
 
 
-def cache_news(news_dict, cache_path):
+def cache_news(news_dict, cache_path, **kwargs):
     """Function that caches news from given dict
         If there's no cache file, creates it and returns CacheCleanError
         Returns True if everything's fine"""
@@ -57,7 +57,7 @@ class CacheCleanError(FileNotFoundError):
     pass
 
 
-def clear_cache(cache_path):
+def clear_cache(cache_path, **kwargs):
     """Function that deletes cache file
         Returns True if cache file deleted successfully
         Returns CacheCleanError if cache is already clear"""
@@ -72,7 +72,7 @@ def clear_cache(cache_path):
         exit(1)
 
 
-def get_cached_news(date, limit, cache_path):
+def get_cached_news(date, limit, cache_path, **kwargs):
     """Function that return cached news dictionary from given date
         Returns cached news dictionary if everything's fine
         Returns False if there are news from given date
