@@ -2,6 +2,7 @@
 #pipenv
 Pipfile
 Pipfile.lock
+*.sh
 
 #PyCharm
 .idea

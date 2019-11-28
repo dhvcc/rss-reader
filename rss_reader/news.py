@@ -1,31 +1,27 @@
-"""News parsing module"""
+"""Converting module which is responsible for everything associated with printing and parsing news"""
 from bs4 import BeautifulSoup
 from requests import get
 from html import unescape
 from json import dumps
 from sys import exit
 
-import os
-
 
 def get_response(source):
     """Function that returns response from source it received"""
     try:
         resp = get(source)
+        return resp
     except Exception as e:
         print('Error requesting a response')
         print(e)
         exit(1)
-    return resp
 
 
-def get_soup(source, reader_dir):
+def get_soup(source):
     """Function that returns BeautifulSoup object from response"""
-    response = get_response(source)
     try:
+        response = get_response(source)
         soup = BeautifulSoup(response.content, 'xml')
-        # with open(os.path.join(reader_dir, 'tutby.xml'), 'r') as f:
-        #     soup = BeautifulSoup(f.read(), 'xml')
     except Exception as e:
         print('Error parsing url response')
         print(e)
@@ -34,7 +30,7 @@ def get_soup(source, reader_dir):
 
 
 def get_items(limit, soup):
-    """Function that return news dictionary extracted from given BeautifulSoup object"""
+    """Function that returns news dictionary extracted from given BeautifulSoup object"""
     feed_title = unescape(soup.title.text)
     news_dict = {'Feed title': feed_title, 'News': []}
     items = soup.findAll('item')

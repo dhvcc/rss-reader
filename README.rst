@@ -30,7 +30,7 @@ to install this RSS reader.
 
 You can `download <[https://pypi.org/project/rss-reader/#files](https://pypi.org/project/rss-reader/#files)>`__
 it manually and run ``python3 setup.py install`` in
-``.../rss-reader-1.4.0/``
+``.../rss-reader-1.4.1/``
 
 Requirements
 ------------
@@ -42,9 +42,9 @@ Usage
 ::
 
     usage: rss_reader [-h] [--version] [--json] [--verbose] [--limit LIMIT]
-                  [--date DATE] [--clear-cache] [--to-mobi] [--to-epub]
-                  [--to-fb2] [--to-html] [--to-pdf]
-                  source
+                  [--date DATE] [--clear-cache] [--to-epub] [--to-fb2] 
+                  [--to-html] [--to-pdf]
+                  [source [source ...]]
 
     Pure Python command-line RSS reader.
 
@@ -57,18 +57,18 @@ Usage
       --json         print result as JSON in stdout
       --verbose      output verbose status messages
       --limit LIMIT  limit news topics if this parameter provided
-      --date DATE    print cached news from provided date
-      --clear-cache  clear news cache
-      --to-mobi    convert news to .mobi format and make a new file called
-                   news.mobi
-      --to-epub    convert news to .epub format and make a new file called
-                   news.epub
-      --to-fb2     convert news to .fb2 format and make a new file called
-                   news.fb2
-      --to-html    convert news to .html format and make a new file called
-                   news.html
-      --to-pdf     convert news to .pdf format and make a new file called
-                   news.pdf
+      --date DATE    print cached news from provided date in %Y%m%d format, also
+                     affects --to-* arguments (no need to provide source argument)
+      --clear-cache  clear news cache (no need to provide source argument)
+      --to-epub      convert news to .epub format and make a new file called
+                     news.epub
+      --to-fb2       convert news to .fb2 format and make a new file called
+                     news.fb2
+      --to-html      convert news to .html format and make a new file called
+                     news.html
+      --to-pdf       convert news to .pdf format and make a new file called
+                     news.pdf
+
 
 
 JSON structure
@@ -127,6 +127,65 @@ JSON structure
             },
             ...
         ]
+    }
+
+Cache
+-----
+Cache is stored in your home directory in rss_reader as data.json. All of the converted news are stored here too.
+
+Cache JSON structure
+====================
+::
+
+    {
+        "(Published date in %Y%m%d. Just as you enter in --date DATE)": [
+            {
+                "Title": "(News title)",
+                "Link": "(News link)",
+                "Publishing date": "(publishing date)",
+                "Category": "(category)",
+                "Description": "(description)",
+                "Description links": [
+                    "(link)",
+                    "(link)",
+                    ...
+                ],
+                "Description images": [
+                    {
+                        "Title": "(image title)",
+                        "Link": "(image link)"
+                    },
+                    {
+                        "Title": "(image title)",
+                        "Link": "(image link)"
+                    },
+                    ...
+                ]
+            },
+            {
+                "Title": "(News title)",
+                "Link": "(News link)",
+                "Publishing date": "(publishing date)",
+                "Category": "(category)",
+                "Description": "(description)",
+                "Description links": [
+                    "(link)",
+                    "(link)",
+                    ...
+                ],
+                "Description images": [
+                    {
+                        "Title": "(image title)",
+                        "Link": "(image link)"
+                    },
+                    {
+                        "Title": "(image title)",
+                        "Link": "(image link)"
+                    },
+                    ...
+                ]
+            },
+            ...
     }
 
 Contributing
