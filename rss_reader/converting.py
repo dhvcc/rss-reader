@@ -4,7 +4,6 @@ import magic
 import weasyprint
 from yattag import Doc, indent
 from os import path, remove
-import sys
 from rss_reader.news import get_response
 import base64
 from ebooklib import epub
@@ -17,9 +16,7 @@ def save_news(file, reader_dir, file_format, **kwargs):
         with open(path.join(reader_dir, 'news.' + file_format), 'w') as f:
             f.write(file)
     except Exception as e:
-        print('Error saving a file')
-        print(e)
-        sys.exit(1)
+        raise Exception('Error saving news: {}'.format(e))
 
 
 def get_html(news_dict, **kwargs):
@@ -56,9 +53,7 @@ def get_html(news_dict, **kwargs):
                                         doc.line('p', image['Title'])
         return indent(doc.getvalue())
     except Exception as e:
-        print('Error converting to html')
-        print(e)
-        sys.exit(1)
+        raise Exception('Error getting HTML: {}'.format(e))
 
 
 def get_xhtml(news, **kwargs):
@@ -94,9 +89,7 @@ def get_xhtml(news, **kwargs):
                                     doc.line('p', image['Title'])
         return doc.getvalue()
     except Exception as e:
-        print('Error getting xhtml')
-        print(e)
-        sys.exit(1)
+        raise Exception('Error getting XHTML: {}'.format(e))
 
 
 def get_binary_string_from_link(image_link, **kwargs):
@@ -105,21 +98,16 @@ def get_binary_string_from_link(image_link, **kwargs):
         response = get_response(image_link)
         return base64.b64encode(response.content).decode()
     except Exception as e:
-        print('Error getting binary string from link')
-        print(e)
-        exit(1)
+        raise Exception('Error getting binary string from link: {}'.format(e))
 
 
 def get_bytes_from_link(image_link, **kwargs):
     """Given image link, returns content bytes"""
     try:
-
         response = get_response(image_link)
         return response.content
     except Exception as e:
-        print('Error getting binary string from link')
-        print(e)
-        exit(1)
+        raise Exception('Error getting bytes from link: {}'.format(e))
 
 
 def to_html(news_dict, reader_dir, **kwargs):
@@ -127,16 +115,11 @@ def to_html(news_dict, reader_dir, **kwargs):
         Returns True if converted successfully"""
     try:
         html = get_html(news_dict)
-        if html:
-            save_news(html, reader_dir, 'html')
-            print('Saved news.html in {}'.format(reader_dir))
-            return True
-        else:
-            return False
+        save_news(html, reader_dir, 'html')
+        print('Saved news.html in {}'.format(reader_dir))
+        return True
     except Exception as e:
-        print('Error saving a file')
-        print(e)
-        sys.exit(1)
+        raise Exception('Error converting to HTML: {}'.format(e))
 
 
 def to_pdf(news_dict, reader_dir, **kwargs):
@@ -149,9 +132,7 @@ def to_pdf(news_dict, reader_dir, **kwargs):
         print('Saved news.pdf in {}'.format(reader_dir))
         return True
     except Exception as e:
-        print('Error converting to pdf')
-        print(e)
-        sys.exit(1)
+        raise Exception('Error converting to PDF: {}'.format(e))
 
 
 def to_fb2(news_dict, reader_dir, source, **kwargs):
@@ -162,16 +143,24 @@ def to_fb2(news_dict, reader_dir, source, **kwargs):
         img = {}
         for news in news_dict['News']:
             if 'Description images' in news:
+                mime = magic.Magic(mime=True)
                 for image in news['Description images']:
-                    mime = magic.Magic(mime=True)
-                    image_bytes = get_bytes_from_link(image['Link'])
-                    image_content = get_binary_string_from_link(image['Link'])
-                    with open(path.join(reader_dir, 'data'), 'wb') as f:
-                        f.write(image_bytes)
-                    img[image_content] = (
-                        image_counter2, mime.from_file(path.join(reader_dir, 'data')))
-                    image_counter2 += 1
-                remove(path.join(reader_dir, 'data'))
+                    try:
+                        image_bytes = get_bytes_from_link(image['Link'])
+                        image_content = get_binary_string_from_link(image['Link'])
+                    except Exception as e:
+                        pass
+                    else:
+                        with open(path.join(reader_dir, 'tmp_image'), 'wb') as f:
+                            f.write(image_bytes)
+                        img[image_content] = (
+                            image_counter2, mime.from_file(path.join(reader_dir, 'tmp_image')))
+                        image_counter2 += 1
+                try:
+                    pass
+                    remove(path.join(reader_dir, 'tmp_image'))
+                except Exception:
+                    pass
         section_counter = 0
         doc, tag, text = Doc().tagtext()
         doc.asis('<?xml version="1.0" encoding="utf-8"?>')
@@ -213,9 +202,13 @@ def to_fb2(news_dict, reader_dir, source, **kwargs):
                         doc.stag('empty-line')
                         if images:
                             for image in images:
-                                image_content = get_binary_string_from_link(image['Link'])
-                                if image_content in img:
-                                    doc.stag('image', ('l:href', '#{}'.format(img[image_content][0])))
+                                try:
+                                    image_content = get_binary_string_from_link(image['Link'])
+                                except Exception:
+                                    pass
+                                else:
+                                    if image_content in img:
+                                        doc.stag('image', ('l:href', '#{}'.format(img[image_content][0])))
                         doc.stag('empty-line')
                         if links:
                             doc.line('p', 'Links:')
@@ -229,10 +222,7 @@ def to_fb2(news_dict, reader_dir, source, **kwargs):
         print('Saved news.fb2 in {}'.format(reader_dir))
         return True
     except Exception as e:
-        print('Error converting to fb2')
-        print(e)
-        raise e
-        sys.exit(1)
+        raise Exception('Error converting to FB2: {}'.format(e))
 
 
 def to_epub(news_dict, reader_dir, **kwargs):
@@ -245,18 +235,17 @@ def to_epub(news_dict, reader_dir, **kwargs):
         book.set_language('')
 
         book.add_author(news_dict['Feed title'])
-
-        counter = 0
+        chapter_file_counter = 1
         spine = ['nav']
         toc = []
         for news in news_dict['News']:
-            c = epub.EpubHtml(title=news['Title'], file_name='{}.xhtml'.format(counter))
-            c.content = get_xhtml(news)
-            book.add_item(c)
-            spine.append(c)
+            chapter = epub.EpubHtml(title=news['Title'], file_name='{}.xhtml'.format(chapter_file_counter))
+            chapter.content = get_xhtml(news)
+            book.add_item(chapter)
+            spine.append(chapter)
             toc.append(epub.Section(news['Title']))
-            toc.append(c)
-            counter += 1
+            toc.append(chapter)
+            chapter_file_counter += 1
 
         book.toc = tuple(toc)
 
@@ -269,6 +258,4 @@ def to_epub(news_dict, reader_dir, **kwargs):
         print('Saved news.epub in {}'.format(reader_dir))
         return True
     except Exception as e:
-        print('Error converting to epub')
-        print(e)
-        sys.exit(1)
+        raise Exception('Error converting to EPUB: {}'.format(e))
