@@ -26,6 +26,7 @@ def get_html(news_dict, **kwargs):
         doc, tag, text = Doc().tagtext()
         doc.asis('<!DOCTYPE html>')
         with tag('html'):
+            # pass
             with tag('header'):
                 with tag('h2'):
                     text(news_dict['Feed title'])
@@ -140,7 +141,7 @@ def to_fb2(news_dict, reader_dir, source, **kwargs):
         Returns True if converted successfully"""
     try:
         image_counter2 = 0
-        img = {}
+        all_images_dictionary = {}
         for news in news_dict['News']:
             if 'Description images' in news:
                 mime = magic.Magic(mime=True)
@@ -153,7 +154,7 @@ def to_fb2(news_dict, reader_dir, source, **kwargs):
                     else:
                         with open(path.join(reader_dir, 'tmp_image'), 'wb') as f:
                             f.write(image_bytes)
-                        img[image_content] = (
+                        all_images_dictionary[image_content] = (
                             image_counter2, mime.from_file(path.join(reader_dir, 'tmp_image')))
                         image_counter2 += 1
                 try:
@@ -207,15 +208,16 @@ def to_fb2(news_dict, reader_dir, source, **kwargs):
                                 except Exception:
                                     pass
                                 else:
-                                    if image_content in img:
-                                        doc.stag('image', ('l:href', '#{}'.format(img[image_content][0])))
+                                    if image_content in all_images_dictionary:
+                                        doc.stag('image',
+                                                 ('l:href', '#{}'.format(all_images_dictionary[image_content][0])))
                         doc.stag('empty-line')
                         if links:
                             doc.line('p', 'Links:')
                             for link in links:
                                 doc.line('p', link)
-            if img:
-                for key, value in img.items():
+            if all_images_dictionary:
+                for key, value in all_images_dictionary.items():
                     with tag('binary', ('content-type', value[1]), id=value[0]):
                         text(key)
         save_news(doc.getvalue(), reader_dir, 'fb2')

@@ -10,15 +10,6 @@ from pathlib import Path
 from os import path, mkdir
 
 
-# before commit
-# update Readme version
-# update config version
-# readme usage
-
-
-# delete with open on response
-# tests
-
 class InvalidSourceError(Exception):
     """Exception that is thrown if the source is invalid"""
 
@@ -246,11 +237,15 @@ def main():
         else:
             log.info('Source {} is not valid'.format(args.source))
             raise InvalidSourceError
+    except InvalidSourceError as e:
+        print(e)
+        if not args.verbose:
+            print('Consider using --verbose for more details')
+        parser.print_help()
     except Exception as e:
         print(e)
         if not args.verbose:
-            print('Use --verbose for more details')
-        parser.print_help()
+            print('Consider using --verbose for more details')
 
 
 if __name__ == '__main__':

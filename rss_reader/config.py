@@ -1,2 +1,2 @@
 """Config module which stores variables for setup.py"""
-version = '1.6.1'
+version = '2.0.0'

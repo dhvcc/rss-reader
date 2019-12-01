@@ -17,7 +17,7 @@ def get_response(source, **kwargs):
         resp = get(source, timeout=5)
         return resp
     except Exception:
-        raise Exception('Error requesting a response')
+        raise Exception('Error requesting a response from {}'.format(source))
 
 
 def get_soup(source, **kwargs):
@@ -25,9 +25,6 @@ def get_soup(source, **kwargs):
     try:
         response = get_response(source)
         soup = BeautifulSoup(response.content, 'xml')
-        # with open('/home/kwiz/rss_reader/yahoo.xml', 'r') as f:
-        # with open('/home/kwiz/rss_reader/tutby.xml', 'r') as f:
-        #     soup = BeautifulSoup(f.read(), 'xml')
         if soup.rss is None:
             raise RSSNotFoundError
         return soup

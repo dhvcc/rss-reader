@@ -28,7 +28,7 @@ Just run this command from terminal
 
 
 2)You can `download <https://pypi.org/project/rss-reader/#files>`__
-it manually from PyPI and then run ``python3 setup.py install`` in ``.../rss-reader-1.6.1/``
+it manually from PyPI and then run ``python3 setup.py install`` in ``.../rss-reader-2.0.0/``
 
 3)You can download this utility directly from
 `this <https://github.com/Kwizchm/PythonHomework.git>`__ github repository (branch FinalTask)
