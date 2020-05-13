@@ -13,7 +13,7 @@ setup(
     author='Alexey Artishevskiy',
     author_email='1337kwiz@gmail.com',
     description='A simple CLI rss reader',
-    url='https://github.com/Kwizchm/PythonHomework',
+    url='https://github.com/dhvcc/rss-reader',
     license='MIT',
     long_description=read('README.rst'),
     packages=find_packages(),
