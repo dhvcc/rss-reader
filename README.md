@@ -1,10 +1,17 @@
-What is this?
---------------
+# Rss reader
+
+[![Downloads](https://pepy.tech/badge/rss-reader)](https://pepy.tech/project/rss-reader)
+[![Downloads](https://pepy.tech/badge/rss-reader/month)](https://pepy.tech/project/rss-reader/month)
+[![Downloads](https://pepy.tech/badge/rss-reader/week)](https://pepy.tech/project/rss-reader/week)
+
+[![Code checks](https://github.com/dhvcc/rss-reader/workflows/Code%20checks/badge.svg)](https://github.com/dhvcc/rss-reader/actions?query=workflow%3A%22Code+checks%22)
+[![Pypi publish](https://github.com/dhvcc/rss-reader/workflows/Pypi%20publish/badge.svg)](https://github.com/dhvcc/rss-reader/actions?query=workflow%3A%22Pypi+publish%22)
+
+## What is this?
 
 rss-reader is a command line utility that allows you to view RSS feeds
 
-What is RSS?
-------------
+## What is RSS?
 
 RSS stands for “Really Simple Syndication,”
 or, depending on who you ask, “Rich Site Summary.” At it's heart, RSS is
@@ -14,35 +21,23 @@ plugged into what is called a “feed reader” or an interface that quickly
 converts the RSS text files into a stream of the latest updates from
 around the web.
 
-Installation
-------------
+# Installation
 
 1)You can install this rss-reader using python's standard package-management system 
-`pip <https://pip.pypa.io/en/stable/installing/>`__
+[pip](<https://pip.pypa.io/en/stable/installing/>)
 
 Just run this command from terminal
 
-::
 
     pip3 install rss-reader
 
 
-2)You can `download <https://pypi.org/project/rss-reader/#files>`__
-it manually from PyPI and then run ``python3 setup.py install`` in ``.../rss-reader-2.0.0/``
+2)You can [download](<https://pypi.org/project/rss-reader/#files>)
+it manually from PyPI and then run ``python3 setup.py install`` in ``.../rss-reader-*version*/``
 
-3)You can download this utility directly from
-`this <https://github.com/dhvcc/rss-reader.git>`__ github repository (branch FinalTask)
 
-and then run ``python3 setup.py install`` in ``.../PythonHomework/``
+# Usage 
 
-Requirements
-------------
-Python version 3.6 and later
-
-Usage 
------
-
-::
 
     usage: rss-reader [-h] [--version] [--verbose] [--date DATE] [--clear-cache]
                       [--json] [--to-html] [--to-pdf] [--to-fb2] [--to-epub]
@@ -72,8 +67,7 @@ Usage
       --limit LIMIT  limit news topics if this parameter is provided
       --colorize     print the result of the utility in colorized mode
 
-Important
-=========
+# Important
 
 **1)Arguments are prioritized from top to bottom. This means that the utility will first parse the -h/--help argument, then --version, then --verbose, then --date, and so on**
 
@@ -81,16 +75,14 @@ Important
 
 **3)The --limit argument DOES affect any kind of news output**
 
-**4)The --date argument DOES affect the --json and the --to-(html/pdf/fb2/mobi) arguments**
+**4)The --date argument DOES affect the --json and the --to-(html/pdf/fb2/epub) arguments**
 
-**5)The --colorize argument DOES NOT affect the --json and the --to-(html/pdf/fb2/mobi) arguments**
+**5)The --colorize argument DOES NOT affect the --json and the --to-(html/pdf/fb2/epub) arguments**
 
-**6)The conversion result, as well as the cache(cache.json) is stored in the rss_reader folder**
+**6)Data is stored in {HOME}/rss_reader folder**
 
-JSON structure
---------------
+## JSON structure
 
-::
 
     {
         "Feed title": "(Feed title)",
@@ -145,69 +137,15 @@ JSON structure
         ]
     }
 
-
-Cache JSON structure
---------------------
-::
-
-    {
-        "(Published date in %Y%m%d. Just as you enter in --date DATE)": [
-            {
-                "Title": "(News title)",
-                "Link": "(News link)",
-                "Publishing date": "(publishing date)",
-                "Category": "(category)",
-                "Description": "(description)",
-                "Description links": [
-                    "(link)",
-                    "(link)",
-                    ...
-                ],
-                "Description images": [
-                    {
-                        "Title": "(image title)",
-                        "Link": "(image link)"
-                    },
-                    {
-                        "Title": "(image title)",
-                        "Link": "(image link)"
-                    },
-                    ...
-                ]
-            },
-            {
-                "Title": "(News title)",
-                "Link": "(News link)",
-                "Publishing date": "(publishing date)",
-                "Category": "(category)",
-                "Description": "(description)",
-                "Description links": [
-                    "(link)",
-                    "(link)",
-                    ...
-                ],
-                "Description images": [
-                    {
-                        "Title": "(image title)",
-                        "Link": "(image link)"
-                    },
-                    {
-                        "Title": "(image title)",
-                        "Link": "(image link)"
-                    },
-                    ...
-                ]
-            },
-            ...
-    }
-
-Contributing
-------------
+## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
-License
--------
+`pre-commit` usage is highly recommended
+
+install hooks via `pre-commit install -t=pre-commit -t=pre-push`
+
+## License
 
 `MIT <https://choosealicense.com/licenses/mit/>`__

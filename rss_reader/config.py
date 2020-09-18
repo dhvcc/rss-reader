@@ -1,2 +1,14 @@
-"""Config module which stores variables for setup.py"""
-version = '2.0.3'
+from os.path import join, isdir
+from os import mkdir
+from pathlib import Path
+
+BASE_DIR = join(str(Path.home()), 'rss_reader')
+
+CACHE_DIR = join(BASE_DIR, 'cache')
+if not isdir(CACHE_DIR):
+    mkdir(CACHE_DIR)
+
+OUTPUT_DIR = join(BASE_DIR, 'output')
+if not isdir(OUTPUT_DIR):
+    mkdir(OUTPUT_DIR)
+

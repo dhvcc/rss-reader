@@ -1,0 +1,22 @@
+from pydantic import BaseModel
+from typing import List, Optional
+
+
+class DescriptionImage(BaseModel):
+    alt: Optional[str]
+    source: str
+
+
+class FeedItem(BaseModel):
+    title: str
+    link: str
+    publish_date: Optional[str]
+    category: Optional[str]
+    description: str
+    description_links: Optional[List[str]]
+    description_images: Optional[List[DescriptionImage]]
+
+
+class RSSFeed(BaseModel):
+    title: str
+    feed: List[FeedItem]
