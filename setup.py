@@ -7,6 +7,7 @@ def read(file_name):
 
 
 with open("rss_reader/__init__.py") as f:
+    """Executing init to set __version__ value"""
     exec(f.read())
 
 setup(
@@ -25,7 +26,9 @@ setup(
                       "pydantic",
                       "ujson",
                       "bs4"],
+    # TODO: add extra-requires for dev
     keywords='cli rss reader',
+    # TODO: update classifiers
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.7',

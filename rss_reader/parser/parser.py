@@ -41,7 +41,4 @@ class Parser:
                 ]
             }
             self.raw_data["feed"].append(item_dict)
-        # from json import dumps
-        # open("rss.json", "w").write(RSSFeed(**self.raw_data).json())
-        # open("rss.json", "a").write(dumps(self.raw_data))
         return RSSFeed(**self.raw_data)

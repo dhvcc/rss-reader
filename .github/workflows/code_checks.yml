@@ -2,7 +2,9 @@ name: Code checks
 
 on:
   push:
-    branches: develop
+    branches:
+      - v3
+      - master
 
 
 jobs:
