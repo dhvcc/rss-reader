@@ -6,6 +6,9 @@ import weasyprint
 from ebooklib import epub
 
 from pathlib import Path
+import logging
+
+logger = logging.getLogger("rss-reader")
 
 
 class Converter:
@@ -22,7 +25,7 @@ class Converter:
 
     def json(self):
         file_path = join(self.convert_dir,
-                         self.convert_file if self.convert_file else "rss_feed.json")
+                         self.convert_file or "rss_feed.json")
         with open(file_path, "w") as file:
             if self.rss_raw:
                 file.write(json.dumps(self.rss_raw, indent=4))
@@ -32,36 +35,39 @@ class Converter:
                 loaded: dict = json.loads(self.rss.json())
                 file.write(json.dumps(loaded, indent=4))
 
-    def html(self):
-        file_path = join(self.convert_dir,
-                         self.convert_file if self.convert_file else "rss_feed.html")
+        logger.info(f"Saved json in {file_path}")
+
+    def get_html(self, **kwargs):
         template = Template(open(join(self.module_dir, "html_template.jinja2")).read())
+        return template.render(**kwargs)
+
+    def html(self):
+        file_path = join(self.convert_dir, self.convert_file or "rss_feed.html")
         with open(file_path, "w") as file:
-            file.write(template.render(rss=self.rss))
+            file.write(self.get_html(rss=self.rss))
+
+        logger.info(f"Saved html in {file_path}")
 
     def pdf(self):
         file_path = join(self.convert_dir,
-                         self.convert_file if self.convert_file else "rss_feed.pdf")
-        template = Template(open(join(self.module_dir, "html_template.jinja2")).read())
-        output_html = template.render(rss=self.rss)
+                         self.convert_file or "rss_feed.pdf")
+        output_html = self.get_html(rss=self.rss)
         weasyprinted_html = weasyprint.HTML(string=output_html)
         weasyprinted_html.write_pdf(file_path)
 
-    def fb2(self):
-        # TODO
-        ...
+        logger.info(f"Saved pdf in {file_path}")
 
-    def get_xhtml(self, feed_item: FeedItem) -> str:
+    def get_xhtml(self, feed_item: FeedItem, language: str = "") -> str:
         template = Template(open(join(self.module_dir, "xhtml_template.jinja2")).read())
-        return template.render(item=feed_item)
+        return template.render(item=feed_item, language=language)
 
     def epub(self):
         file_path = join(self.convert_dir,
-                         self.convert_file if self.convert_file else "rss_feed.epub")
+                         self.convert_file or "rss_feed.epub")
         book = epub.EpubBook()
         book.set_identifier('id')
         book.set_title(self.rss.title)
-        # book.set_language('')
+        book.set_language(self.rss.language)
         book.add_author(self.rss.title)
 
         toc = []
@@ -69,7 +75,7 @@ class Converter:
 
         for num, item in enumerate(self.rss.feed, 1):
             chapter = epub.EpubHtml(title=item.title, file_name=f"{num}.xhtml")
-            chapter.content = self.get_xhtml(item)
+            chapter.content = self.get_xhtml(item, self.rss.language)
 
             book.add_item(chapter)
             spine.append(chapter)
@@ -83,3 +89,5 @@ class Converter:
         book.add_item(epub.EpubNav())
 
         epub.write_epub(file_path, book)
+
+        logger.info(f"Saved epub in {file_path}")

@@ -19,4 +19,7 @@ class FeedItem(BaseModel):
 
 class RSSFeed(BaseModel):
     title: str
+    version: Optional[str]
+    language: Optional[str]
+    description: Optional[str]
     feed: List[FeedItem]

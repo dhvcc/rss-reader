@@ -19,8 +19,9 @@ def filename(name: str) -> str:
     return name
 
 
-def unsigned_int(number: str):
-    if int(number) < 0:
+def unsigned_int(number: str) -> int:
+    num = int(number)
+    if num < 0:
         raise argparse.ArgumentTypeError("limit must be positive")
     else:
-        return number
+        return num

@@ -3,8 +3,6 @@ from bs4 import BeautifulSoup
 from .models import RSSFeed
 
 
-# TODO: Add version and language capture
-
 class Parser:
     def __init__(self, xml, limit=None):
         self.xml = xml
@@ -21,7 +19,9 @@ class Parser:
         main_soup = self.get_soup(self.xml)
         self.raw_data = {
             "title": main_soup.title.text,
-            "link": main_soup.link.text,
+            "version": main_soup.rss.get("version"),
+            "language": getattr(main_soup.language, "text", ""),
+            "description": getattr(main_soup.description, "text", ""),
             "feed": []
         }
         items = main_soup.findAll("item")

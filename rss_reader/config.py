@@ -4,10 +4,6 @@ from pathlib import Path
 
 BASE_DIR = join(str(Path.home()), 'rss_reader')
 
-CACHE_DIR = join(BASE_DIR, 'cache')
-if not isdir(CACHE_DIR):
-    mkdir(CACHE_DIR)
-
 OUTPUT_DIR = join(BASE_DIR, 'output')
 if not isdir(OUTPUT_DIR):
     mkdir(OUTPUT_DIR)

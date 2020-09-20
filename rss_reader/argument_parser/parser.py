@@ -14,8 +14,7 @@ class ArgParser:
         self.parser = argparse.ArgumentParser(
             description="Pure Python command-line RSS reader.",
             add_help=True)
-        self.parser.add_argument("source", help="RSS source FILE/URL. "
-                                                "Ignored if --date/--clear-cache argument is passed", nargs="?",
+        self.parser.add_argument("source", help="RSS source URL or a file path",
                                  type=str)
         self.parser.add_argument("--version", help="print version info",
                                  action="version",
@@ -24,14 +23,12 @@ class ArgParser:
                                  action="store_true")
         self.parser.add_argument("-d", "--date", help="print cached news from provided date in %%Y%%m%%d format",
                                  type=str)
-        self.parser.add_argument("--clear-cache", help="clear news cache",
-                                 action="store_true")
         self.parser.add_argument("-o", "--output", help="console output type",
                                  choices=["console", "colorized", "json", "none"],
                                  default="console",
                                  type=str)
         self.parser.add_argument("-c", "--convert", help="convert feed and save as a file",
-                                 choices=["json", "html", "pdf", "fb2", "epub"],
+                                 choices=["json", "html", "pdf", "epub"],
                                  default="none",
                                  type=str)
         self.parser.add_argument("--convert-dir", help=f"convert output dir path instead of {OUTPUT_DIR}",
@@ -39,8 +36,6 @@ class ArgParser:
                                  type=directory)
         self.parser.add_argument("--convert-file", help="convert output filename",
                                  type=filename)
-        self.parser.add_argument("--dont-cache", help="don't cache the output",
-                                 action="store_true")
         self.parser.add_argument("-l", "--limit", help="limit news topics if this parameter is provided",
                                  type=unsigned_int)
 

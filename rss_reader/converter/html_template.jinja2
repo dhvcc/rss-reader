@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="{{ rss.language }}">
 <head>
-	{# TODO: Prettify #}
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>{{ rss.title }}</title>
@@ -26,6 +25,7 @@
 <body>
 	<header>
 		<h1 class="rss_title">{{ rss.title }}</h1>
+		<h2>{{ rss.description }}</h2>
 	</header>
 	<main>
 		<section class="feed">

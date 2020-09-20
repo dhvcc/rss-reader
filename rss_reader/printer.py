@@ -12,7 +12,8 @@ class Printer:
         pass
 
     def console(self):
-        print(f"\nFeed: {self.rss.title}")
+        print(f"\nFeed (RSS{self.rss.version or ''} {self.rss.language or ''}): {self.rss.title}")
+        print(self.rss.description)
         for item in self.rss.feed:
             print(f"\n\nTitle: {item.title}")
             if item.publish_date:
@@ -35,7 +36,9 @@ class Printer:
         # TODO: Wrap printer in a module and add colors.py that contains color scheme tuples
         print()
         print(Style.NORMAL, Back.WHITE, Fore.BLACK, end='\b\b')
-        print(f"Feed: {self.rss.title}", Style.RESET_ALL)
+        print(f"Feed (RSS{self.rss.version or ''} {self.rss.language or ''}): {self.rss.title}", Style.RESET_ALL)
+        print(Style.NORMAL, Back.WHITE, Fore.BLACK, end='\b\b')
+        print(self.rss.description, Style.RESET_ALL)
         for item in self.rss.feed:
             print(2 * "\n")
             print(Style.NORMAL, Back.WHITE, Fore.BLACK, end='\b\b')
@@ -52,7 +55,7 @@ class Printer:
                 print(f"Link: {item.link}", Style.RESET_ALL)
 
             print(Style.BRIGHT, Fore.YELLOW)
-            print(f"{item.description}q\n", Style.RESET_ALL)
+            print(f"{item.description}\n", Style.RESET_ALL)
 
             if item.description_images:
                 print(Style.BRIGHT, Fore.WHITE, end='\b')

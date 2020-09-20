@@ -27,7 +27,7 @@ repos:
         entry: autopep8
         language: system
         types: [python]
-        args: [--in-place, --max-line-length=99]
+        args: [--in-place, --max-line-length=120]
         stages: [commit]
 
       - id: flake8

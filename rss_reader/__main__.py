@@ -1,16 +1,16 @@
 from .reader import Reader
 
 
-# TODO: Add usage examples to README
-# TODO: Add logging as --verbose
-
-# TODO: add .rss_reader.yaml config
-# TODO: add tests
+# TODO: Add pretty html/pdf
 
 
 def main():
     reader = Reader()
-    reader.start()
+    try:
+        reader.start()
+    except Exception as e:
+        print(f"Rss reader crashed from {type(e).__name__}. "
+              "Consider using --verbose for more info")
 
 
 if __name__ == '__main__':
