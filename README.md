@@ -39,6 +39,12 @@ pip install .
 
 **Notice** that you can mute console output with `-o none`. It may be useful if you want to convert only
 
+```bash
+rss-reader https://feedforall.com/sample.xml --output none --convert html --limit 2
+```
+
+**Argument help**
+
 ```
 usage: rss-reader [-h] [--version] [--verbose] [-d DATE] [--clear-cache] [-o {console,colorized,json,none}] [-c {json,html,pdf,fb2,epub}] [--convert-dir CONVERT_DIR] [--convert-file CONVERT_FILE] [--dont-cache] [-l LIMIT] [source]
 
@@ -77,4 +83,4 @@ install hooks via `pre-commit install -t=pre-commit -t=pre-push`
 
 ## License
 
-`MIT <https://choosealicense.com/licenses/mit/>`__
+[MIT](./LICENSE)

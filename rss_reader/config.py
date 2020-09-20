@@ -11,3 +11,5 @@ if not isdir(CACHE_DIR):
 OUTPUT_DIR = join(BASE_DIR, 'output')
 if not isdir(OUTPUT_DIR):
     mkdir(OUTPUT_DIR)
+
+MODULE_DIR = Path(__file__).parent

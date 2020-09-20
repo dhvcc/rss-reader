@@ -38,4 +38,4 @@ repos:
         pass_filenames: false
         args:
           - rss_reader
-        stages: [push]
+        stages: [commit]

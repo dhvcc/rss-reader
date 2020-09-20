@@ -6,23 +6,28 @@ def read(file_name):
     return open(os.path.join(os.path.dirname(__file__), file_name)).read()
 
 
-with open("rss_reader/__init__.py") as f:
+pkg_info = {}
+
+with open("rss_reader/__version__.py") as f:
     """Executing init to set __version__ value"""
-    exec(f.read())
+    exec(f.read(), pkg_info)
+
+REPO_URL = "https://github.com/dhvcc/rss-reader"
 
 setup(
     name="rss-reader",
-    version=locals()["__version__"],
-    author="dhvcc",
-    author_email="1337kwiz@gmail.com",
+    version=pkg_info["__version__"],
+    author=pkg_info["__author__"],
+    author_email=pkg_info["__email__"],
     description="A simple CLI rss reader",
-    url="https://github.com/dhvcc/rss-reader",
-    license="MIT",
+    url=REPO_URL,
+    license=pkg_info["__license__"],
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     packages=find_packages(),
     python_requires=">=3.7",
-    install_requires=["requests",
+    install_requires=["pathvalidate",
+                      "requests",
                       "pydantic",
                       "bs4",
                       "colorama",
@@ -41,7 +46,11 @@ setup(
         ]
     },
     include_package_data=True,
-    keywords="python cli rss reader parser",
+    project_urls={
+        "Source": REPO_URL,
+        "Tracker": f"{REPO_URL}/issues",
+    },
+    keywords=["python", "cli", "rss", "reader", "parser"],
     classifiers=[
         "Natural Language :: English",
         "Intended Audience :: Developers",
