@@ -28,7 +28,7 @@ setup(
                       "colorama",
                       "Jinja2",
                       "ebooklib"],
-    extra_require={
+    extras_require={
         "speedups": [
             "ujson"
         ],

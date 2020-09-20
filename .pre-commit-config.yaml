@@ -30,16 +30,6 @@ repos:
         args: [--in-place, --max-line-length=99]
         stages: [commit]
 
-      #      - id: pytest
-      #        name: pytest
-      #        entry: pytest
-      #        language: system
-      #        always_run: true
-      #        pass_filenames: false
-      #        args:
-      #          - tests
-      #        stages: [push]
-
       - id: flake8
         name: flake8 check
         entry: flake8

@@ -1,6 +1,7 @@
 import argparse
 from .types import directory
 from rss_reader.config import OUTPUT_DIR
+from rss_reader import __version__
 
 
 class ArgParser:
@@ -12,7 +13,7 @@ class ArgParser:
                                  type=str)
         self.parser.add_argument("--version", help="print version info",
                                  action="version",
-                                 version="rss-reader {}".format(globals()["__version__"]))
+                                 version=f"rss-reader {__version__}")
         self.parser.add_argument("--verbose", help="output verbose status messages",
                                  action="store_true")
         self.parser.add_argument("-d", "--date", help="print cached news from provided date in %%Y%%m%%d format",
