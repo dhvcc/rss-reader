@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="">
+<head>
+	<title>{{ item.title }}</title>
+</head>
+<body>
+	<p class="item_title">{{ item.title }}</p>
+	{% if item.publish_date %}
+		<p class="publish_date">{{ item.publish_date }}</p>
+	{% endif %}
+	<div class="description">
+		<p class="description_text">{{ item.description }}</p>
+		<ul>
+			{% for link in item.description_links %}
+				<li>
+					<a class="description_link" href="{{ link }}"></a>
+				</li>
+			{% endfor %}
+		</ul>
+		{% for image in item.description_images %}
+			<img class="description_image" src="{{ image.source }}" alt="{{ image.alt }}">
+		{% endfor %}
+	</div>
+</body>
+</html>

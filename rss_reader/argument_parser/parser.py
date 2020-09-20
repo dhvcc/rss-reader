@@ -1,24 +1,6 @@
 import argparse
-from rss_reader.utils import file_path
+from .types import directory
 from rss_reader.config import OUTPUT_DIR
-
-with open("rss_reader/__init__.py") as f:
-    """Execute init to set __version__ value"""
-    exec(f.read())
-
-
-class ArgsModel(argparse.Namespace):
-    """Argparse output namespace schema to make linters work"""
-    source: str
-    version: str
-    verbose: bool
-    date: str
-    clear_cache: bool
-    output: str
-    convert: str
-    save_to: str
-    limit: int
-    dont_cache: bool
 
 
 class ArgParser:
@@ -45,12 +27,14 @@ class ArgParser:
                                  choices=["json", "html", "pdf", "fb2", "epub"],
                                  default="none",
                                  type=str)
-        self.parser.add_argument("--save-to", help="output file path instead of {home}/rss_reader/output",
+        self.parser.add_argument("--convert-dir", help="convert output dir path instead of {home}/rss_reader/output",
                                  default=OUTPUT_DIR,
-                                 type=file_path)
-        self.parser.add_argument("--dont-cache", help="don't cache to output",
+                                 type=directory)
+        self.parser.add_argument("--convert-file", help="convert output filename",
+                                 type=str)
+        self.parser.add_argument("--dont-cache", help="don't cache the output",
                                  action="store_true")
-        self.parser.add_argument("--limit", help="limit news topics if this parameter is provided",
+        self.parser.add_argument("-l", "--limit", help="limit news topics if this parameter is provided",
                                  type=int)
 
     def print_help(self):
@@ -59,10 +43,3 @@ class ArgParser:
 
     def get_args(self):
         return self.parser.parse_args()
-
-
-args = None
-
-if not args:
-    parser = ArgParser()
-    args = parser.get_args()

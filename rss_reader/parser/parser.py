@@ -1,8 +1,9 @@
 from bs4 import BeautifulSoup
-from html import unescape
 
 from .models import RSSFeed
 
+
+# TODO: Add version and language capture
 
 class Parser:
     def __init__(self, xml, limit=None):
@@ -13,24 +14,24 @@ class Parser:
         self.rss = None
 
     @staticmethod
-    def get_soup(xml: str) -> BeautifulSoup:
-        return BeautifulSoup(xml, 'xml')
+    def get_soup(xml: str, parser: str = "xml") -> BeautifulSoup:
+        return BeautifulSoup(xml, parser)
 
     def parse(self) -> RSSFeed:
         main_soup = self.get_soup(self.xml)
         self.raw_data = {
-            "title": unescape(main_soup.title.text),
-            "link": unescape(main_soup.link.text),
+            "title": main_soup.title.text,
+            "link": main_soup.link.text,
             "feed": []
         }
         items = main_soup.findAll("item")
         if self.limit is not None:
             items = items[:self.limit]
         for item in items:
-            description_soup = self.get_soup(item.description.text)
+            description_soup = self.get_soup(item.description.text, "html.parser")
             item_dict = {
-                "title": unescape(item.title.text),
-                "link": unescape(item.link.text),
+                "title": item.title.text,
+                "link": item.link.text,
                 "publish_date": getattr(item.pubDate, "text", ""),
                 "category": getattr(item.category, "text", ""),
                 "description": description_soup.text,
@@ -41,4 +42,5 @@ class Parser:
                 ]
             }
             self.raw_data["feed"].append(item_dict)
+
         return RSSFeed(**self.raw_data)

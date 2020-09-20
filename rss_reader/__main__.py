@@ -1,8 +1,12 @@
 from .reader import Reader
 
 
-# TODO: change README
-# TODO: add pre-commit config
+# TODO: Add usage examples to README
+# TODO: Add logging as --verbose
+
+# TODO: add .rss_reader.yaml config
+# TODO: add tests
+
 
 def main():
     reader = Reader()

@@ -1,4 +1,4 @@
-# Rss reader
+# Rss reader WIP
 
 [![Downloads](https://pepy.tech/badge/rss-reader)](https://pepy.tech/project/rss-reader)
 [![Downloads](https://pepy.tech/badge/rss-reader/month)](https://pepy.tech/project/rss-reader/month)
@@ -23,119 +23,48 @@ around the web.
 
 # Installation
 
-1)You can install this rss-reader using python's standard package-management system 
-[pip](<https://pip.pypa.io/en/stable/installing/>)
+1. Using pip 
+```bash
+pip install rss-reader
+```
 
-Just run this command from terminal
+2. Using Git and GitHub
+```bash
+git clone https://github.com/dhvcc/rss-reader.git
+cd rss-reader
+pip install .
+```
 
+## Usage
 
-    pip3 install rss-reader
+**Notice** that you can mute console output with `-o none`. It may be useful if you want to convert only
 
+```
+usage: rss-reader [-h] [--version] [--verbose] [-d DATE] [--clear-cache] [-o {console,colorized,json,none}] [-c {json,html,pdf,fb2,epub}] [--convert-dir CONVERT_DIR] [--convert-file CONVERT_FILE] [--dont-cache] [-l LIMIT] [source]
 
-2)You can [download](<https://pypi.org/project/rss-reader/#files>)
-it manually from PyPI and then run ``python3 setup.py install`` in ``.../rss-reader-*version*/``
+Pure Python command-line RSS reader.
 
+positional arguments:
+  source                RSS source FILE/URL. Ignored if --date/--clear-cache arguments are passed
 
-# Usage 
-
-
-    usage: rss-reader [-h] [--version] [--verbose] [--date DATE] [--clear-cache]
-                      [--json] [--to-html] [--to-pdf] [--to-fb2] [--to-epub]
-                      [--limit LIMIT] [--colorize]
-                      [source [source ...]]
-    
-    Pure Python command-line RSS reader.
-    
-    positional arguments:
-      source         RSS URL
-    
-    optional arguments:
-      -h, --help     show this help message and exit
-      --version      print version info
-      --verbose      output verbose status messages
-      --date DATE    print cached news from provided date in %Y%m%d format
-      --clear-cache  clear news cache
-      --json         print the news as JSON in stdout
-      --to-html      convert news to .html format and make a new file called
-                     news.html
-      --to-pdf       convert news to .pdf format and make a new file called
-                     news.pdf
-      --to-fb2       convert news to .fb2 format and make a new file called
-                     news.fb2
-      --to-epub      convert news to .epub format and make a new file called
-                     news.epub
-      --limit LIMIT  limit news topics if this parameter is provided
-      --colorize     print the result of the utility in colorized mode
-
-# Important
-
-**1)Arguments are prioritized from top to bottom. This means that the utility will first parse the -h/--help argument, then --version, then --verbose, then --date, and so on**
-
-**2)There is no need to enter the source argument if the --date or the --clear-cache arguments were entered. The utility will just ignore it**
-
-**3)The --limit argument DOES affect any kind of news output**
-
-**4)The --date argument DOES affect the --json and the --to-(html/pdf/fb2/epub) arguments**
-
-**5)The --colorize argument DOES NOT affect the --json and the --to-(html/pdf/fb2/epub) arguments**
-
-**6)Data is stored in {HOME}/rss_reader folder**
-
-## JSON structure
-
-
-    {
-        "Feed title": "(Feed title)",
-        "News": [
-            {
-                "Title": "(News title)",
-                "Link": "(News link)",
-                "Publishing date": "(publishing date)",
-                "Category": "(category)",
-                "Description": "(description)",
-                "Description links": [
-                    "(link)",
-                    "(link)",
-                    ...
-                ],
-                "Description images": [
-                    {
-                        "Title": "(image title)",
-                        "Link": "(image link)"
-                    },
-                    {
-                        "Title": "(image title)",
-                        "Link": "(image link)"
-                    },
-                    ...
-                ]
-            },
-            {
-                "Title": "(News title)",
-                "Link": "(News link)",
-                "Publishing date": "(publishing date)",
-                "Category": "(category)",
-                "Description": "(description)",
-                "Description links": [
-                    "(link)",
-                    "(link)",
-                    ...
-                ],
-                "Description images": [
-                    {
-                        "Title": "(image title)",
-                        "Link": "(image link)"
-                    },
-                    {
-                        "Title": "(image title)",
-                        "Link": "(image link)"
-                    },
-                    ...
-                ]
-            },
-            ...
-        ]
-    }
+optional arguments:
+  -h, --help            show this help message and exit
+  --version             print version info
+  --verbose             output verbose status messages
+  -d DATE, --date DATE  print cached news from provided date in %Y%m%d format
+  --clear-cache         clear news cache
+  -o {console,colorized,json,none}, --output {console,colorized,json,none}
+                        console output type
+  -c {json,html,pdf,fb2,epub}, --convert {json,html,pdf,fb2,epub}
+                        convert feed and save as a file
+  --convert-dir CONVERT_DIR
+                        convert output dir path instead of {home}/rss_reader/output
+  --convert-file CONVERT_FILE
+                        convert output filename
+  --dont-cache          don't cache the output
+  -l LIMIT, --limit LIMIT
+                        limit news topics if this parameter is provided
+```
 
 ## Contributing
 

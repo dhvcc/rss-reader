@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+	{# TODO: Prettify #}
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>{{ rss.title }}</title>
+	<style>
+		header {
+			padding: 2rem;
+		}
+
+		.feed {
+			padding: 1rem;
+		}
+
+		.feed_item {
+			padding-bottom: 1rem;
+		}
+
+		.description_image {
+			max-width: 240px;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1 class="rss_title">{{ rss.title }}</h1>
+	</header>
+	<main>
+		<section class="feed">
+			{% for item in rss.feed %}
+				<article class="feed_item">
+					<h3 class="item_title">{{ item.title }}</h3>
+					{% if item.publish_date %}
+						<p class="publish_date">{{ item.publish_date }}</p>
+					{% endif %}
+					{% if item.category %}
+						<p class="category">{{ item.category }}</p>
+					{% endif %}
+					{% if item.link %}
+						<a href="{{ item.link }}">{{ item.link }}</a>
+					{% endif %}
+					<div class="description">
+						<p class="description_text">{{ item.description }}</p>
+						<ul>
+							{% for link in item.description_links %}
+								<li class="description_link">{{ link }}</li>
+							{% endfor %}
+						</ul>
+						{% for image in item.description_images %}
+							<img class="description_image" src="{{ image.source }}" alt="{{ image.alt }}">
+						{% endfor %}
+					</div>
+				</article>
+			{% endfor %}
+		</section>
+	</main>
+</body>
+</html>
