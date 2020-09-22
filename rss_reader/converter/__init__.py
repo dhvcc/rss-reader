@@ -1,1 +1,1 @@
-from .converter import Converter
+from ._converter import Converter

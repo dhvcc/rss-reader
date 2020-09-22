@@ -11,7 +11,9 @@
 
 `rss-reader` is a command line utility that allows you to view RSS feeds
 
-You can also convert RSS feed to `html`/`pdf`/`epub` for more comfortable reading
+You can also convert RSS feeds to `html`/`pdf`/`epub` for more convenient reading
+
+Command-line arguments, local and global INI configs, environment variables **are supported**
 
 ## What is RSS?
 
@@ -23,31 +25,67 @@ plugged into what is called a “feed reader” or an interface that quickly
 converts the RSS text files into a stream of the latest updates from
 around the web.
 
+# Contributing
+
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+`pre-commit` usage is highly recommended
+
+install hooks via `pre-commit install -t=pre-commit -t=pre-push`
+
+# License
+
+[MIT](https://github.com/dhvcc/rss-reader/blob/master/LICENSE)
+
+# Documentation
+
+1. [Installation](https://github.com/dhvcc/rss-reader#installation)
+2. [Usage](https://github.com/dhvcc/rss-reader#usage)
+    1. [Notes](https://github.com/dhvcc/rss-reader#notes)
+    2. [Examples](https://github.com/dhvcc/rss-reader#examples)
+3. [Config](https://github.com/dhvcc/rss-reader#config)
+    1. [Info](https://github.com/dhvcc/rss-reader#info)
+        1. [Config source priority](https://github.com/dhvcc/rss-reader#config-argument-sources-are-prioritized)
+        2. [Warning](https://github.com/dhvcc/rss-reader#warning)
+    2. [Command-line arguments](https://github.com/dhvcc/rss-reader#command-line-arguments)
+    3. [INI configs](https://github.com/dhvcc/rss-reader#ini-configs)
+    4. [Environment variables](https://github.com/dhvcc/rss-reader#environment-variables)
+        1. [Using environment variables](https://github.com/dhvcc/rss-reader#using-environment-variables)
+
 # Installation
 
-1. Using pip 
+### Using pip
 ```bash
 pip install rss-reader
 ```
 
-2. Using Git and GitHub
+### Using Git and GitHub
 ```bash
 git clone https://github.com/dhvcc/rss-reader.git
 cd rss-reader
 pip install .
 ```
 
+### Extras
+
+You can install extra dependencies, such as `speedups` or `dev`
+
+```
+pip install rss-reader[dev]
+# or
+pip install .[speedups]
+```
+
 # Usage
 
-#### IMPORTANT
+## Notes
 
-`rss-reader 3.1` no longer supports `fb2` format and caching
-
-#### Notice
+**IMPORTANT** `rss-reader 3.1` no longer supports `fb2` format and caching
 
 You can mute console output with `-o none`. It may be useful if you want to convert only
 
-### Examples
+## Examples
 
 Converting feed to html and muting console output. Feed is limited to 2 items
 ```bash
@@ -64,41 +102,47 @@ This will generate default console output and the feed will be converted to pdf 
 rss-reader /path/to/your/file.xml -c pdf --convert-dir /my/dir --convert-file filename.pdf
 ```
 
-##### Argument help
+# Config
 
+## Info
+
+#### Config argument sources are prioritized
+
+ 1. Command-line arguments
+ 2. Local `.rss-reader` config
+ 3. Environment variables
+ 4. Global `{HOME}/.rss-reader` config
+
+#### Warning
+
+`source`, `verbose`, `limit` and `version` arguments can be set only as cli arguments
+
+
+## Command-line arguments
+
+To view help on cli arguments you can run `rss-reader --help`
+
+## INI configs
+
+Every argument is optional if config and will be grabbed from other source if not present
+The syntax for config is the following:
+
+```ini
+[rss-reader]
+OUTPUT =
+CONVERT =
+CONVERT_DIR =
+CONVERT_FILE =
 ```
-usage: __main__.py [-h] [--version] [--verbose] [-o {console,colorized,json,none}] [-c {json,html,pdf,epub}] [--convert-dir CONVERT_DIR] [--convert-file CONVERT_FILE] [-l LIMIT] source
 
-Pure Python command-line RSS reader.
+Global config should be located in your home folder and named `.rss-reader`
 
-positional arguments:
-  source                RSS source URL or a file path
+## Environment variables
 
-optional arguments:
-  -h, --help            show this help message and exit
-  --version             print version info
-  --verbose             output verbose status messages
-  -o {console,colorized,json,none}, --output {console,colorized,json,none}
-                        console output type
-  -c {json,html,pdf,epub}, --convert {json,html,pdf,epub}
-                        convert feed and save as a file
-  --convert-dir CONVERT_DIR
-                        convert output dir path instead of {HOME}/rss_reader/output
-  --convert-file CONVERT_FILE
-                        convert output filename
-  -l LIMIT, --limit LIMIT
-                        limit news topics if this parameter is provided
-```
+Env vars should be prefixed with `RSS_READER_`, for example, `RSS_READER_OUTPUT`
 
-# Contributing
+### Using environment variables
 
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
+[Windows](http://www.dowdandassociates.com/blog/content/howto-set-an-environment-variable-in-windows-command-line-and-registry/)
 
-`pre-commit` usage is highly recommended
-
-install hooks via `pre-commit install -t=pre-commit -t=pre-push`
-
-# License
-
-[MIT](./LICENSE)
+[Linux](https://linuxize.com/post/how-to-set-and-list-environment-variables-in-linux/)

@@ -3,7 +3,7 @@ from pathlib import Path
 
 from requests import get, exceptions
 
-from rss_reader.argument_parser import args, ArgsModel
+from rss_reader.config import data_config, MODULE_DIR
 from rss_reader.converter import Converter
 from rss_reader.parser import Parser
 from rss_reader.parser.models import RSSFeed
@@ -14,8 +14,9 @@ logger = logging.getLogger("rss-reader")
 
 class Reader:
     def __init__(self):
-        self.source = args.source
-        self.args: ArgsModel = args
+        self.config = data_config
+
+        self.source = self.config.source
 
         self.rss_response = None
         self.rss = None
@@ -27,7 +28,7 @@ class Reader:
             logger.info("Source is a file")
             try:
                 with open(self.source) as file:
-                    return Parser(file.read(), self.args.limit)
+                    return Parser(file.read(), self.config.limit)
             except Exception as e:
                 logger.warning("Source is invalid")
                 logger.exception(e)
@@ -36,14 +37,13 @@ class Reader:
             logger.info("Source is not a file, should be a link")
             try:
                 self.rss_response = get(self.source)
-                return Parser(self.rss_response.content, self.args.limit)
+                return Parser(self.rss_response.content, self.config.limit)
             except exceptions.RequestException as e:
                 logger.warning("Source is invalid")
                 logger.exception(e)
                 raise e
 
-    @staticmethod
-    def enable_verbose():
+    def enable_verbose(self):
         formatter = logging.Formatter("[%(levelname)s] %(asctime)s (%(funcName)s) = %(message)s")
 
         logger_ = logging.getLogger("rss-reader")
@@ -53,14 +53,17 @@ class Reader:
 
         logger_.addHandler(s_handler)
 
+        logger_.info("Enabled verbose mode")
+        logger.debug(self.config)
+        logger.debug(f"Module dir {MODULE_DIR}")
+
     def start(self):
         """Setup and print"""
-        if self.args.verbose:
+        if self.config.verbose:
             self.enable_verbose()
         else:
             logger.addHandler(logging.NullHandler())
             logger.propagate = False
-        logger.info(f"Args are {self.args}")
 
         parser = self.get_parser()
         self.rss: RSSFeed = parser.parse()
@@ -74,10 +77,10 @@ class Reader:
         getattr returns (attribute) method depending on arg value
         """
         printer = Printer(self.rss, self.rss_raw)
-        logger.info(f"Calling printer.{self.args.output}")
-        getattr(printer, self.args.output)()
+        logger.info(f"Calling printer.{self.config.output}()")
+        getattr(printer, self.config.output)()
 
-        converter = Converter(self.rss, self.args.convert_dir,
-                              self.args.convert_file, self.rss_raw)
-        logger.info(f"Calling converter.{self.args.convert}")
-        getattr(converter, self.args.convert)()
+        converter = Converter(self.rss, self.config.convert_dir,
+                              self.config.convert_file, self.rss_raw)
+        logger.info(f"Calling converter.{self.config.convert}()")
+        getattr(converter, self.config.convert)()

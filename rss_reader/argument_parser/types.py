@@ -23,5 +23,18 @@ def unsigned_int(number: str) -> int:
     num = int(number)
     if num < 0:
         raise argparse.ArgumentTypeError("limit must be positive")
-    else:
-        return num
+    return num
+
+
+def output_enum(output: str) -> str:
+    enum = ("console", "colorized", "json", "none")
+    if output not in enum:
+        raise argparse.ArgumentTypeError(f"output not in {enum}")
+    return output
+
+
+def convert_enum(convert: str) -> str:
+    enum = ("json", "html", "pdf", "epub")
+    if convert not in enum:
+        raise argparse.ArgumentTypeError(f"convert not in {enum}")
+    return convert

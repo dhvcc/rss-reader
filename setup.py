@@ -30,6 +30,7 @@ setup(
                       "requests",
                       "pydantic",
                       "bs4",
+                      "weasyprint",
                       "colorama",
                       "Jinja2",
                       "ebooklib"],
@@ -48,6 +49,7 @@ setup(
     include_package_data=True,
     project_urls={
         "Source": REPO_URL,
+        "Documentation": f"{REPO_URL}#documentation",
         "Tracker": f"{REPO_URL}/issues",
     },
     keywords=["python", "cli", "rss", "reader", "parser"],

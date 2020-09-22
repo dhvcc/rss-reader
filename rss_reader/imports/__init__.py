@@ -1,4 +1,1 @@
-try:
-    import ujson as json
-except ModuleNotFoundError:
-    import json
+from ._json import json
