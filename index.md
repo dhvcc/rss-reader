@@ -1,15 +1,6 @@
 # Rss reader
 
-[![Downloads](https://pepy.tech/badge/rss-reader)](https://pepy.tech/project/rss-reader)
-[![Downloads](https://pepy.tech/badge/rss-reader/month)](https://pepy.tech/project/rss-reader/month)
-[![Downloads](https://pepy.tech/badge/rss-reader/week)](https://pepy.tech/project/rss-reader/week)
-
-[![Code checks](https://github.com/dhvcc/rss-reader/workflows/Code%20checks/badge.svg)](https://github.com/dhvcc/rss-reader/actions?query=workflow%3A%22Code+checks%22)
-[![Pypi publish](https://github.com/dhvcc/rss-reader/workflows/Pypi%20publish/badge.svg)](https://github.com/dhvcc/rss-reader/actions?query=workflow%3A%22Pypi+publish%22)
-
-## What is this?
-
-`rss-reader` is a command line utility that allows you to view RSS feeds
+It is a command line utility that allows you to view RSS feeds
 
 You can also convert RSS feeds to `html`/`pdf`/`epub` for more convenient reading
 
@@ -25,33 +16,20 @@ plugged into what is called a “feed reader” or an interface that quickly
 converts the RSS text files into a stream of the latest updates from
 around the web.
 
-# Contributing
-
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
-
-`pre-commit` usage is highly recommended
-
-install hooks via `pre-commit install -t=pre-commit -t=pre-push`
-
-# License
-
-[MIT](https://github.com/dhvcc/rss-reader/blob/master/LICENSE)
-
 # Documentation
 
-1. [Installation](https://github.com/dhvcc/rss-reader#installation)
-2. [Usage](https://github.com/dhvcc/rss-reader#usage)
-    1. [Notes](https://github.com/dhvcc/rss-reader#notes)
-    2. [Examples](https://github.com/dhvcc/rss-reader#examples)
-3. [Config](https://github.com/dhvcc/rss-reader#config)
-    1. [Info](https://github.com/dhvcc/rss-reader#info)
-        1. [Config source priority](https://github.com/dhvcc/rss-reader#config-argument-sources-are-prioritized)
-        2. [Warning](https://github.com/dhvcc/rss-reader#warning)
-    2. [Command-line arguments](https://github.com/dhvcc/rss-reader#command-line-arguments)
-    3. [INI configs](https://github.com/dhvcc/rss-reader#ini-configs)
-    4. [Environment variables](https://github.com/dhvcc/rss-reader#environment-variables)
-        1. [Using environment variables](https://github.com/dhvcc/rss-reader#using-environment-variables)
+1. [Installation](https://dhvcc.github.io/rss-reader#installation)
+2. [Usage](https://dhvcc.github.io/rss-reader#usage)
+    1. [Notes](https://dhvcc.github.io/rss-reader#notes)
+    2. [Examples](https://dhvcc.github.io/rss-reader#examples)
+3. [Config](https://dhvcc.github.io/rss-reader#config)
+    1. [Info](https://dhvcc.github.io/rss-reader#info)
+        1. [Config source priority](https://dhvcc.github.io/rss-reader#config-argument-sources-are-prioritized)
+        2. [Warning](https://dhvcc.github.io/rss-reader#warning)
+    2. [Command-line arguments](https://dhvcc.github.io/rss-reader#command-line-arguments)
+    3. [INI configs](https://dhvcc.github.io/rss-reader#ini-configs)
+    4. [Environment variables](https://dhvcc.github.io/rss-reader#environment-variables)
+        1. [Using environment variables](https://dhvcc.github.io/rss-reader#using-environment-variables)
 
 # Installation
 
@@ -62,7 +40,7 @@ pip install rss-reader
 
 ### Using Git and GitHub
 ```bash
-git clone https://github.com/dhvcc/rss-reader.git
+git clone https://dhvcc.github.io/rss-reader.git
 cd rss-reader
 pip install .
 ```
