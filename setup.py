@@ -13,6 +13,7 @@ with open("rss_reader/__version__.py") as f:
     exec(f.read(), pkg_info)
 
 REPO_URL = "https://github.com/dhvcc/rss-reader"
+SITE_URL = "https://dhvcc.github.io/rss-reader"
 
 setup(
     name="rss-reader",
@@ -26,10 +27,12 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     python_requires=">=3.7",
-    install_requires=["pathvalidate",
+    install_requires=["rss-parser",
+                      "pathvalidate",
                       "requests",
                       "pydantic",
                       "bs4",
+                      "lxml",
                       "weasyprint",
                       "colorama",
                       "Jinja2",
@@ -48,8 +51,9 @@ setup(
     },
     include_package_data=True,
     project_urls={
+        "Homepage": SITE_URL,
         "Source": REPO_URL,
-        "Documentation": f"{REPO_URL}#documentation",
+        "Documentation": f"{SITE_URL}#documentation",
         "Tracker": f"{REPO_URL}/issues",
     },
     keywords=["python", "cli", "rss", "reader", "parser"],

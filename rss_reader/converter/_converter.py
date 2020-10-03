@@ -1,4 +1,4 @@
-from rss_reader.parser.models import RSSFeed, FeedItem
+from rss_parser.models import RSSFeed, FeedItem
 from rss_reader.imports import json
 from jinja2 import Template
 from os.path import join

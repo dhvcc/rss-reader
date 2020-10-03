@@ -5,8 +5,8 @@ from requests import get, exceptions
 
 from rss_reader.config import data_config, MODULE_DIR
 from rss_reader.converter import Converter
-from rss_reader.parser import Parser
-from rss_reader.parser.models import RSSFeed
+from rss_parser import Parser
+from rss_parser.models import RSSFeed
 from rss_reader.printer import Printer
 
 logger = logging.getLogger("rss-reader")

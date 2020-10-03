@@ -4,6 +4,9 @@
 [![Downloads](https://pepy.tech/badge/rss-reader/month)](https://pepy.tech/project/rss-reader/month)
 [![Downloads](https://pepy.tech/badge/rss-reader/week)](https://pepy.tech/project/rss-reader/week)
 
+[![PyPI version](https://badge.fury.io/py/rss-reader.svg)](https://pypi.org/project/rss-reader/)
+[![GitHub license](https://img.shields.io/github/license/dhvcc/rss-reader)](https://github.com/dhvcc/rss-reader/blob/master/LICENSE)
+
 [![Code checks](https://github.com/dhvcc/rss-reader/workflows/Code%20checks/badge.svg)](https://github.com/dhvcc/rss-reader/actions?query=workflow%3A%22Code+checks%22)
 [![Pypi publish](https://github.com/dhvcc/rss-reader/workflows/Pypi%20publish/badge.svg)](https://github.com/dhvcc/rss-reader/actions?query=workflow%3A%22Pypi+publish%22)
 
@@ -41,6 +44,8 @@ install hooks via `pre-commit install -t=pre-commit -t=pre-push`
 # Documentation
 
 1. [Installation](https://github.com/dhvcc/rss-reader#installation)
+    1. [From PyPi](https://github.com/dhvcc/rss-reader#from-pypi)
+    2. [From GitHub](https://github.com/dhvcc/rss-reader#from-github)
 2. [Usage](https://github.com/dhvcc/rss-reader#usage)
     1. [Notes](https://github.com/dhvcc/rss-reader#notes)
     2. [Examples](https://github.com/dhvcc/rss-reader#examples)
@@ -55,12 +60,14 @@ install hooks via `pre-commit install -t=pre-commit -t=pre-push`
 
 # Installation
 
-### Using pip
+### From PyPi
+
 ```bash
 pip install rss-reader
 ```
 
-### Using Git and GitHub
+### From GitHub
+
 ```bash
 git clone https://github.com/dhvcc/rss-reader.git
 cd rss-reader
@@ -71,7 +78,7 @@ pip install .
 
 You can install extra dependencies, such as `speedups` or `dev`
 
-```
+```bash
 pip install rss-reader[dev]
 # or
 pip install .[speedups]

@@ -1,4 +1,4 @@
-from rss_reader.parser.models import RSSFeed
+from rss_parser.models import RSSFeed
 from rss_reader.imports import json
 from colorama import Style, Fore, Back
 
