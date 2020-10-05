@@ -27,16 +27,18 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     python_requires=">=3.7",
-    install_requires=["rss-parser",
-                      "pathvalidate",
-                      "requests",
-                      "pydantic",
-                      "bs4",
-                      "lxml",
-                      "weasyprint",
-                      "colorama",
-                      "Jinja2",
-                      "ebooklib"],
+    install_requires=[
+        "rss-parser",
+        "pathvalidate",
+        "requests",
+        "pydantic",
+        "bs4",
+        "lxml",
+        "weasyprint",
+        "colorama",
+        "Jinja2",
+        "ebooklib"
+    ],
     extras_require={
         "speedups": [
             "ujson"
@@ -56,7 +58,11 @@ setup(
         "Documentation": f"{SITE_URL}#documentation",
         "Tracker": f"{REPO_URL}/issues",
     },
-    keywords=["python", "cli", "rss", "reader", "parser"],
+    keywords=[
+        "python", "python3", "cli",
+        "rss", "reader", "parser",
+        "mit", "mit-license"
+    ],
     classifiers=[
         "Natural Language :: English",
         "Intended Audience :: Developers",
