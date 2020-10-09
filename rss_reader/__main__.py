@@ -1,7 +1,6 @@
 from .reader import Reader
 import logging
 
-# TODO: Add pretty html/pdf
 logger = logging.getLogger("rss-reader")
 
 

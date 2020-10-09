@@ -1,13 +1,10 @@
-"""Cleaner config PR's are welcomed"""
 from os import mkdir
 from os.path import join, isdir
 from pathlib import Path
 
-###############
-# Base config #
-###############
-
 BASE_DIR = join(str(Path.home()), 'rss_reader')
+if not isdir(BASE_DIR):
+    mkdir(BASE_DIR)
 
 OUTPUT_DIR = join(BASE_DIR, 'output')
 if not isdir(OUTPUT_DIR):

@@ -1,3 +1,4 @@
+"""For info read __init__.py docstring"""
 from rss_parser.models import RSSFeed, FeedItem
 from rss_reader.imports import json
 from jinja2 import Template
@@ -7,20 +8,30 @@ from ebooklib import epub
 
 from pathlib import Path
 import logging
+from typing import Union
 
 logger = logging.getLogger("rss-reader")
 
 
 class Converter:
-    def __init__(self, rss: RSSFeed, convert_dir: str, convert_file: str, rss_raw: dict = None):
+    def __init__(
+            self,
+            rss: RSSFeed,
+            convert_dir: str,
+            convert_file: str,
+            pretty: Union[None, bool],
+            rss_raw: dict = None,
+    ):
         self.rss = rss
         self.rss_raw = rss_raw
         self.convert_dir = convert_dir
         self.convert_file = convert_file
 
+        self.pretty: str = "pretty_" if pretty else ""
         self.module_dir = Path(__file__).parent
 
     def none(self):
+        """Empty method which is called if convert argument is 'none'"""
         pass
 
     def json(self):
@@ -38,7 +49,7 @@ class Converter:
         logger.info(f"Saved json in {file_path}")
 
     def get_html(self, **kwargs):
-        template = Template(open(join(self.module_dir, "html_template.jinja2")).read())
+        template = Template(open(join(self.module_dir, f"{self.pretty}html_template.jinja2")).read())
         return template.render(**kwargs)
 
     def html(self):

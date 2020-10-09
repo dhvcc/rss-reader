@@ -1,3 +1,4 @@
+"""For info read __init__.py docstring"""
 from rss_parser.models import RSSFeed
 from rss_reader.imports import json
 from colorama import Style, Fore, Back
@@ -9,6 +10,7 @@ class Printer:
         self.rss_raw = rss_raw
 
     def none(self):
+        """Empty method which is called if output argument is 'none'"""
         pass
 
     def console(self):

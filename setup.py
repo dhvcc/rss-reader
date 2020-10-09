@@ -34,10 +34,10 @@ setup(
         "pydantic",
         "bs4",
         "lxml",
-        "weasyprint",
-        "colorama",
+        "weasyprint==51",
+        "colorama==0.4.3",
         "Jinja2",
-        "ebooklib"
+        "ebooklib==0.17.1"
     ],
     extras_require={
         "speedups": [
@@ -69,6 +69,7 @@ setup(
         "Intended Audience :: End Users/Desktop",
         "License :: OSI Approved :: MIT License",
         "Development Status :: 5 - Production/Stable",
+        "Typing :: Typed",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",

@@ -1,3 +1,4 @@
+"""Custom types for argparse"""
 import argparse
 from pathlib import Path
 from pathvalidate import validate_filename, ValidationError

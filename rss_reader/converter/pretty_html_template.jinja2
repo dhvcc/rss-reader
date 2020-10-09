@@ -1,0 +1,71 @@
+{# Pretty html template with bootstrap #}
+<!DOCTYPE html>
+<html lang="{{ rss.language }}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>{{ rss.title }}</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		  integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container-fluid px-5">
+		<header class="mt-2">
+			<div class="jumbotron text-center" style="background-color: transparent">
+				<h1 class="rss_title">{{ rss.title }}</h1>
+				<h2>{{ rss.description }}</h2>
+			</div>
+
+		</header>
+		<main>
+			<section class="feed">
+				<ol>
+					{% for item in rss.feed %}
+						<li>
+							<article class="feed_item">
+								{% if item.link %}
+									<a href="{{ item.link }}" class="item_title text-decoration-none"
+									   target="_blank"
+									   style="font-size: 1.25rem">
+										{{ item.title }}
+									</a>
+								{% else %}
+									<h5 class="item_title">{{ item.title }}</h5>
+								{% endif %}
+								{% if item.publish_date %}
+									<p class="publish_date text-monospace mb-1">{{ item.publish_date }}</p>
+								{% endif %}
+								{% if item.category %}
+									<p class="category font-italic mb-1">{{ item.category }}</p>
+								{% endif %}
+								<div class="description p-3">
+									<p class="description_text">{{ item.description }}</p>
+									<ul>
+										{% for link in item.description_links %}
+											<li class="description_link">{{ link }}</li>
+										{% endfor %}
+									</ul>
+									{% for image in item.description_images %}
+										<img class="img-thumbnail description_image" src="{{ image.source }}"
+											 alt="{{ image.alt }}">
+									{% endfor %}
+								</div>
+							</article>
+						</li>
+						<hr>
+					{% endfor %}
+				</ol>
+			</section>
+		</main>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+			crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+			integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+			crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+			integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+			crossorigin="anonymous"></script>
+</body>
+</html>

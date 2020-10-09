@@ -1,21 +1,23 @@
-"""Cleaner config PR's are welcomed"""
+"""Data config module which parses cli args, ini configs and env"""
 from configparser import ConfigParser
 from os import environ
 from os.path import join
 from pathlib import Path
 from rss_reader.argument_parser import types, ArgsModel, ArgParser
 from ._base import OUTPUT_DIR
+from typing import Union
 
 
 class DataConfig:
     def __init__(self):
-        self.source: str = None
-        self.verbose: bool = None
-        self.output: str = None
-        self.convert: str = None
-        self.convert_dir: str = None
-        self.convert_file: str = None
-        self.limit: int = None
+        self.source: Union[None, str] = None
+        self.verbose: Union[None, bool] = None
+        self.output: Union[None, str] = None
+        self.convert: Union[None, str] = None
+        self.convert_dir: Union[None, str] = None
+        self.convert_file: Union[None, str] = None
+        self.limit: Union[None, int] = None
+        self.pretty: Union[None, bool] = None
 
     def load(self, arguments_: ArgsModel, local_config_: ConfigParser, global_config_: ConfigParser, environment_):
         self.load_cli(arguments_)
@@ -33,6 +35,7 @@ class DataConfig:
         self.convert_dir = arguments.convert_dir
         self.convert_file = arguments.convert_file
         self.limit = arguments.limit
+        self.pretty = arguments.pretty
 
     def load_ini(self, config: ConfigParser):
         if "rss-reader" not in config.sections():
@@ -70,6 +73,8 @@ class DataConfig:
             self.output = "console"
         if self.convert is None:
             self.convert = "none"
+        if self.pretty is None:
+            self.pretty = False
 
     def __repr__(self):
         return f"<{self.__class__.__name__}" \

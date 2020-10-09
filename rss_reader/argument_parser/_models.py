@@ -11,3 +11,4 @@ class ArgsModel(argparse.Namespace):
     convert_dir: str
     convert_file: str
     limit: int
+    pretty: bool

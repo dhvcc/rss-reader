@@ -34,10 +34,12 @@ class ArgParser:
                                  type=filename)
         self.parser.add_argument("-l", "--limit", help="limit news topics if this parameter is provided",
                                  type=unsigned_int)
+        self.parser.add_argument("--pretty", help="prettify html",
+                                 action="store_true")
 
     def print_help(self):
         """Shortcut for parser.print_help"""
         self.parser.print_help()
 
-    def get_args(self):
+    def get_args(self) -> argparse.Namespace:
         return self.parser.parse_args()
