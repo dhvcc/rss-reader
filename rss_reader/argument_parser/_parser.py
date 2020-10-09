@@ -34,7 +34,7 @@ class ArgParser:
                                  type=filename)
         self.parser.add_argument("-l", "--limit", help="limit news topics if this parameter is provided",
                                  type=unsigned_int)
-        self.parser.add_argument("--pretty", help="prettify html",
+        self.parser.add_argument("--pretty", help="prettify html and pdf",
                                  action="store_true")
 
     def print_help(self):
