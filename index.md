@@ -2,7 +2,7 @@
 
 It is a command line utility that allows you to view RSS feeds
 
-You can also convert RSS feeds to `html`/`pdf`/`epub` for more convenient reading
+You can also convert RSS feeds to `html/pretty-html`/`pdf/pretty-pdf`/`epub` for more convenient reading
 
 Command-line arguments, local and global INI configs, environment variables **are supported**
 
@@ -65,19 +65,31 @@ You can mute console output with `-o none`. It may be useful if you want to conv
 
 ## Examples
 
-Converting feed to html and muting console output. Feed is limited to 2 items
+**Notice that --pretty is a separate agrument as it affects html and pdf(pdf is generated from html)**
+
+Convert feed to html and mute console output. Feed is limited to 2 items
 ```bash
 rss-reader https://feedforall.com/sample.xml --output none --convert html --limit 2
 ```
 
-This will generate colorized console output and the feed will be also converted to epub
+Parse local xml file, generate colorized console output and convert feed to epub
 ```bash
 rss-reader /path/to/your/file.xml -o colorized -c epub
 ```
 
-This will generate default console output and the feed will be converted to pdf and saved in /my/dir/filename.pdf
+Parse local xml file, generate default console output, convert feed to pdf and saved as /my/dir/filename.pdf
 ```bash
 rss-reader /path/to/your/file.xml -c pdf --convert-dir /my/dir --convert-file filename.pdf
+```
+
+Mute console output and convert feed to pretty html with bootstrap
+```bash
+rss-reader /https://feedforall.com/sample.xml -o none -c html --pretty
+```
+
+Output colorized feed to console and convert it to pretty pdf (html with bootstrap)
+```bash
+rss-reader https://feedforall.com/sample.xml -o colorized -c pdf --pretty
 ```
 
 # Config
@@ -93,7 +105,7 @@ rss-reader /path/to/your/file.xml -c pdf --convert-dir /my/dir --convert-file fi
 
 #### Warning
 
-`source`, `verbose`, `limit` and `version` arguments can be set only as cli arguments
+`source`, `verbose`, `limit`, `pretty` and `version` arguments can be set only as cli arguments
 
 
 ## Command-line arguments
