@@ -1,7 +1,8 @@
 import argparse
-from .types import directory, unsigned_int, filename
-from rss_reader.config import OUTPUT_DIR, MODULE_DIR
-from os.path import join
+
+from rss_reader.config import OUTPUT_DIR
+
+from .types import directory, filename, unsigned_int
 
 
 class ArgParser:
@@ -16,7 +17,7 @@ class ArgParser:
             "--version",
             help="print version info",
             action="version",
-            version=f"rss-reader 3.5",
+            version="rss-reader 3.5",
         )
         self.parser.add_argument(
             "--verbose", help="output verbose status messages", action="store_true"

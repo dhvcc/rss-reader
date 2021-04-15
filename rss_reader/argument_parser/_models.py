@@ -3,6 +3,7 @@ import argparse
 
 class ArgsModel(argparse.Namespace):
     """Argparse output namespace schema to make linters work"""
+
     source: str
     version: str
     verbose: bool

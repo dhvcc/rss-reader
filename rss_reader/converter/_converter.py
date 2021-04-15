@@ -1,26 +1,27 @@
 """For info read __init__.py docstring"""
-from rss_parser.models import RSSFeed, FeedItem
-from rss_reader.imports import json
-from jinja2 import Template
+import logging
 from os.path import join
+from pathlib import Path
+from typing import Union
+
 import weasyprint
 from ebooklib import epub
+from jinja2 import Template
+from rss_parser.models import FeedItem, RSSFeed
 
-from pathlib import Path
-import logging
-from typing import Union
+from rss_reader.imports import json
 
 logger = logging.getLogger("rss-reader")
 
 
 class Converter:
     def __init__(
-            self,
-            rss: RSSFeed,
-            convert_dir: str,
-            convert_file: str,
-            pretty: Union[None, bool],
-            rss_raw: dict = None,
+        self,
+        rss: RSSFeed,
+        convert_dir: str,
+        convert_file: str,
+        pretty: Union[None, bool],
+        rss_raw: dict = None,
     ):
         self.rss = rss
         self.rss_raw = rss_raw
@@ -35,8 +36,7 @@ class Converter:
         pass
 
     def json(self):
-        file_path = join(self.convert_dir,
-                         self.convert_file or "rss_feed.json")
+        file_path = join(self.convert_dir, self.convert_file or "rss_feed.json")
         with open(file_path, "w") as file:
             if self.rss_raw:
                 file.write(json.dumps(self.rss_raw, indent=4))
@@ -49,7 +49,9 @@ class Converter:
         logger.info(f"Saved json in {file_path}")
 
     def get_html(self, **kwargs):
-        template = Template(open(join(self.module_dir, f"{self.pretty}html_template.jinja2")).read())
+        template = Template(
+            open(join(self.module_dir, f"{self.pretty}html_template.jinja2")).read()
+        )
         return template.render(**kwargs)
 
     def html(self):
@@ -60,8 +62,7 @@ class Converter:
         logger.info(f"Saved html in {file_path}")
 
     def pdf(self):
-        file_path = join(self.convert_dir,
-                         self.convert_file or "rss_feed.pdf")
+        file_path = join(self.convert_dir, self.convert_file or "rss_feed.pdf")
         output_html = self.get_html(rss=self.rss)
         weasyprinted_html = weasyprint.HTML(string=output_html)
         weasyprinted_html.write_pdf(file_path)
@@ -73,16 +74,15 @@ class Converter:
         return template.render(item=feed_item, language=language)
 
     def epub(self):
-        file_path = join(self.convert_dir,
-                         self.convert_file or "rss_feed.epub")
+        file_path = join(self.convert_dir, self.convert_file or "rss_feed.epub")
         book = epub.EpubBook()
-        book.set_identifier('id')
+        book.set_identifier("id")
         book.set_title(self.rss.title)
         book.set_language(self.rss.language)
         book.add_author(self.rss.title)
 
         toc = []
-        spine = ['nav']
+        spine = ["nav"]
 
         for num, item in enumerate(self.rss.feed, 1):
             chapter = epub.EpubHtml(title=item.title, file_name=f"{num}.xhtml")

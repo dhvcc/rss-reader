@@ -1,3 +1,3 @@
 """Config module"""
-from ._base import OUTPUT_DIR, MODULE_DIR
+from ._base import MODULE_DIR, OUTPUT_DIR
 from ._data import data_config

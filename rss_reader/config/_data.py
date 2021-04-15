@@ -3,9 +3,11 @@ from configparser import ConfigParser
 from os import environ
 from os.path import join
 from pathlib import Path
-from rss_reader.argument_parser import types, ArgsModel, ArgParser
-from ._base import OUTPUT_DIR
 from typing import Union
+
+from rss_reader.argument_parser import ArgParser, ArgsModel, types
+
+from ._base import OUTPUT_DIR
 
 
 class DataConfig:
@@ -19,7 +21,13 @@ class DataConfig:
         self.limit: Union[None, int] = None
         self.pretty: Union[None, bool] = None
 
-    def load(self, arguments_: ArgsModel, local_config_: ConfigParser, global_config_: ConfigParser, environment_):
+    def load(
+        self,
+        arguments_: ArgsModel,
+        local_config_: ConfigParser,
+        global_config_: ConfigParser,
+        environment_,
+    ):
         self.load_cli(arguments_)
         self.load_ini(local_config_)
         self.load_environ(environment_)
@@ -77,8 +85,10 @@ class DataConfig:
             self.pretty = False
 
     def __repr__(self):
-        return f"<{self.__class__.__name__}" \
-               f"({', '.join([f'{k}={v}' for k, v in self.__dict__.items() if not k.startswith('_')])})>"
+        return (
+            f"<{self.__class__.__name__}"
+            f"({', '.join([f'{k}={v}' for k, v in self.__dict__.items() if not k.startswith('_')])})>"
+        )
 
 
 # cli
@@ -91,7 +101,9 @@ global_config = ConfigParser()
 global_config.read(join(str(Path.home()), ".rss-reader"))
 
 data_config = DataConfig()
-data_config.load(arguments_=arg_parser.get_args(),
-                 local_config_=local_config,
-                 environment_=environ,
-                 global_config_=global_config)
+data_config.load(
+    arguments_=arg_parser.get_args(),
+    local_config_=local_config,
+    environment_=environ,
+    global_config_=global_config,
+)

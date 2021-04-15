@@ -1,12 +1,12 @@
 import logging
 from pathlib import Path
 
-from requests import get, exceptions
-
-from rss_reader.config import data_config, MODULE_DIR
-from rss_reader.converter import Converter
+from requests import exceptions, get
 from rss_parser import Parser
 from rss_parser.models import RSSFeed
+
+from rss_reader.config import MODULE_DIR, data_config
+from rss_reader.converter import Converter
 from rss_reader.printer import Printer
 
 logger = logging.getLogger("rss-reader")
@@ -44,7 +44,9 @@ class Reader:
                 raise e
 
     def enable_verbose(self):
-        formatter = logging.Formatter("[%(levelname)s] %(asctime)s (%(funcName)s) = %(message)s")
+        formatter = logging.Formatter(
+            "[%(levelname)s] %(asctime)s (%(funcName)s) = %(message)s"
+        )
 
         logger_ = logging.getLogger("rss-reader")
         logger_.setLevel("DEBUG")
@@ -80,7 +82,8 @@ class Reader:
         logger.info(f"Calling printer.{self.config.output}()")
         getattr(printer, self.config.output)()
 
-        converter = Converter(self.rss, self.config.convert_dir,
-                              self.config.convert_file, self.rss_raw)
+        converter = Converter(
+            self.rss, self.config.convert_dir, self.config.convert_file, self.rss_raw
+        )
         logger.info(f"Calling converter.{self.config.convert}()")
         getattr(converter, self.config.convert)()

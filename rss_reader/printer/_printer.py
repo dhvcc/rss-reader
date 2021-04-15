@@ -1,7 +1,8 @@
 """For info read __init__.py docstring"""
+from colorama import Back, Fore, Style
 from rss_parser.models import RSSFeed
+
 from rss_reader.imports import json
-from colorama import Style, Fore, Back
 
 
 class Printer:
@@ -14,7 +15,9 @@ class Printer:
         pass
 
     def console(self):
-        print(f"\nFeed (RSS{self.rss.version or ''} {self.rss.language or ''}): {self.rss.title}")
+        print(
+            f"\nFeed (RSS{self.rss.version or ''} {self.rss.language or ''}): {self.rss.title}"
+        )
         print(self.rss.description)
         for item in self.rss.feed:
             print(f"\n\nTitle: {item.title}")
@@ -37,30 +40,33 @@ class Printer:
     def colorized(self):
         # TODO: Wrap printer in a module and add colors.py that contains color scheme tuples
         print()
-        print(Style.NORMAL, Back.WHITE, Fore.BLACK, end='\b\b')
-        print(f"Feed (RSS{self.rss.version or ''} {self.rss.language or ''}): {self.rss.title}", Style.RESET_ALL)
-        print(Style.NORMAL, Back.WHITE, Fore.BLACK, end='\b\b')
+        print(Style.NORMAL, Back.WHITE, Fore.BLACK, end="\b\b")
+        print(
+            f"Feed (RSS{self.rss.version or ''} {self.rss.language or ''}): {self.rss.title}",
+            Style.RESET_ALL,
+        )
+        print(Style.NORMAL, Back.WHITE, Fore.BLACK, end="\b\b")
         print(self.rss.description, Style.RESET_ALL)
         for item in self.rss.feed:
             print(2 * "\n")
-            print(Style.NORMAL, Back.WHITE, Fore.BLACK, end='\b\b')
+            print(Style.NORMAL, Back.WHITE, Fore.BLACK, end="\b\b")
             print(f"Title: {item.title}", Style.RESET_ALL)
 
             if item.publish_date:
-                print(Style.BRIGHT, Fore.WHITE, end='\b')
+                print(Style.BRIGHT, Fore.WHITE, end="\b")
                 print(f"Publication date: {item.publish_date}", Style.RESET_ALL)
             if item.category:
-                print(Style.BRIGHT, Fore.WHITE, end='\b')
+                print(Style.BRIGHT, Fore.WHITE, end="\b")
                 print(f"Category: {item.category}", Style.RESET_ALL)
             if item.link:
-                print(Style.BRIGHT, Fore.WHITE, end='\b')
+                print(Style.BRIGHT, Fore.WHITE, end="\b")
                 print(f"Link: {item.link}", Style.RESET_ALL)
 
             print(Style.BRIGHT, Fore.YELLOW)
             print(f"{item.description}\n", Style.RESET_ALL)
 
             if item.description_images:
-                print(Style.BRIGHT, Fore.WHITE, end='\b')
+                print(Style.BRIGHT, Fore.WHITE, end="\b")
                 print("Description images:")
                 for num, image in enumerate(item.description_images, 1):
                     print(f"[{num}][{image.alt}]: {image.source}")

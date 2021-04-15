@@ -1,7 +1,8 @@
 """Custom types for argparse"""
 import argparse
 from pathlib import Path
-from pathvalidate import validate_filename, ValidationError
+
+from pathvalidate import ValidationError, validate_filename
 
 
 def directory(path: str) -> str:

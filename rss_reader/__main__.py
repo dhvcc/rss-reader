@@ -1,5 +1,6 @@
-from .reader import Reader
 import logging
+
+from .reader import Reader
 
 logger = logging.getLogger("rss-reader")
 
@@ -15,5 +16,5 @@ def main():
             print("Consider using --verbose for more info")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
