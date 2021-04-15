@@ -31,13 +31,19 @@ plugged into what is called a “feed reader” or an interface that quickly
 converts the RSS text files into a stream of the latest updates from
 around the web.
 
-# Contributing
+## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
-`pre-commit` usage is highly recommended. To install hooks run `pre-commit install -t=pre-commit -t=pre-push`
+Install dependencies with `poetry install` (`pip install poetry`)
 
-# License
+`pre-commit` usage is highly recommended. To install hooks run
 
-[MIT](https://github.com/dhvcc/rss-reader/blob/master/LICENSE)
+```bash
+poetry run pre-commit install -t=pre-commit -t=pre-push
+```
+
+## License
+
+[GPLv3](https://github.com/dhvcc/rss-reader/blob/master/LICENSE)
